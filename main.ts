@@ -14,10 +14,33 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, l
         }
     })
 })
+function Reload_Tool_Menu () {
+    ToolMenu.destroy()
+    ToolMenu = miniMenu.createMenu(
+    miniMenu.createMenuItem("Tool")
+    )
+    ToolMenu.setButtonEventsEnabled(false)
+    ToolMenu.setFlag(SpriteFlag.RelativeToCamera, true)
+    ToolMenu.setTitle("Tools")
+    ToolMenu.z = 998
+    ToolMenu.top = 1
+    ToolMenu.left = 1
+    ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 64)
+    ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 24)
+    ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+}
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (!(inMenu)) {
+        controller.moveSprite(Collision2, 0, 0)
+        ToolMenu.setButtonEventsEnabled(true)
+        Reload_Tool_Menu()
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
     timer.throttle("action", 100, function () {
         if (!(inMenu)) {
             if (controller.A.isPressed()) {
+                mySprite.sayText("+1 Grass")
                 tiles.setTileAt(location, assets.tile`myTile`)
                 tiles.setWallAt(location, false)
                 loadSprites()
@@ -27,7 +50,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, l
 })
 function loadSprites () {
     timer.background(function () {
-        sprites.destroyAllSpritesOfKind(SpriteKind.Tree)
+        Repeat = tiles.getTilesByType(assets.tile`myTile5`).length / 3000
         for (let value of tiles.getTilesByType(assets.tile`myTile5`)) {
             if (Math.abs(value.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
                 Obj = sprites.create(img`
@@ -64,12 +87,16 @@ function loadSprites () {
                     .....eeeeeee....
                     ....eeeeeeee....
                     `, SpriteKind.Tree)
+                Obj.lifespan = 1250
                 Obj.setFlag(SpriteFlag.Ghost, true)
                 Obj.x = value.x
                 Obj.bottom = value.y
                 Obj.z = Obj.bottom
             }
+            pause(Repeat)
         }
+        pause(100)
+        Repeat = tiles.getTilesByType(assets.tile`myTile4`).length / 3000
         for (let value2 of tiles.getTilesByType(assets.tile`myTile4`)) {
             if (Math.abs(value2.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value2.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
                 Obj = sprites.create(img`
@@ -90,12 +117,16 @@ function loadSprites () {
                     . . . a a . . . 6 a . a . . . . 
                     . . . 6 . . . . . a . a . . . . 
                     `, SpriteKind.Tree)
+                Obj.lifespan = 1250
                 Obj.setFlag(SpriteFlag.Ghost, true)
                 Obj.x = value2.x
                 Obj.bottom = value2.y
                 Obj.z = Obj.bottom
             }
+            pause(Repeat)
         }
+        pause(100)
+        Repeat = tiles.getTilesByType(assets.tile`myTile6`).length / 3000
         for (let value3 of tiles.getTilesByType(assets.tile`myTile6`)) {
             if (Math.abs(value3.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value3.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
                 Obj = sprites.create(img`
@@ -124,11 +155,13 @@ function loadSprites () {
                     .....7777777....
                     .....a777777....
                     `, SpriteKind.Tree)
+                Obj.lifespan = 1250
                 Obj.setFlag(SpriteFlag.Ghost, true)
                 Obj.x = value3.x
                 Obj.bottom = value3.y
                 Obj.z = Obj.bottom
             }
+            pause(Repeat)
         }
     })
 }
@@ -300,7 +333,8 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 5)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
         myMenu.setTitle("Inventory")
         arrowSprite = sprites.create(img`
             2 . . . . . . . 
@@ -328,18 +362,42 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         myMenu.close()
         arrowSprite.destroy()
         inMenu = false
+        controller.moveSprite(Collision2)
     }
+})
+controller.B.onEvent(ControllerButtonEvent.Released, function () {
+    controller.moveSprite(Collision2)
+    ToolMenu.setButtonEventsEnabled(false)
 })
 let Smoke2: Sprite = null
 let arrowSprite: Sprite = null
 let myMenu: miniMenu.MenuSprite = null
 let Obj: Sprite = null
+let Repeat = 0
 let inMenu = false
 let RandomNum = 0
 let Collision2: Sprite = null
+let mySprite: Sprite = null
 let itemNames: string[] = []
 let items: number[] = []
+let ToolMenu: miniMenu.MenuSprite = null
+stats.turnStats(true)
+let ToolLevels: number[] = []
+let Tools: number[] = []
+ToolMenu = miniMenu.createMenu(
+miniMenu.createMenuItem("[None]")
+)
+ToolMenu.setButtonEventsEnabled(false)
+ToolMenu.setFlag(SpriteFlag.RelativeToCamera, true)
+ToolMenu.setTitle("Tools")
+ToolMenu.z = 998
+ToolMenu.top = 1
+ToolMenu.left = 1
+ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 64)
+ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 24)
+ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
 items = [
+0,
 0,
 0,
 0,
@@ -369,7 +427,8 @@ itemNames = [
 "Cactus Farms",
 "Seeds",
 "Saplings",
-"Sticks"
+"Sticks",
+"Farmers"
 ]
 color.setColor(10, color.rgb(50, 200, 50))
 let mySprite2 = sprites.create(img`
@@ -401,7 +460,7 @@ Indicator.setFlag(SpriteFlag.RelativeToCamera, true)
 Indicator.right = 159
 Indicator.top = 1
 Indicator.z = 999
-let mySprite = sprites.create(img`
+mySprite = sprites.create(img`
     . e e e . 
     e e e e e 
     . f 4 f . 
@@ -425,8 +484,8 @@ assets.tile`myTile0`,
 assets.tile`myTile1`,
 assets.tile`myTile2`
 ]
-for (let index = 0; index <= 63; index++) {
-    for (let index2 = 0; index2 <= 63; index2++) {
+for (let index = 0; index <= 99; index++) {
+    for (let index2 = 0; index2 <= 99; index2++) {
         RandomNum = randint(0, 200)
         if (RandomNum <= 99 && !(index == 0)) {
             tiles.setTileAt(tiles.getTileLocation(index, index2), tiles.tileImageAtLocation(tiles.getTileLocation(index, index2).getNeighboringLocation(CollisionDirection.Left)))
@@ -464,9 +523,6 @@ for (let value42 of tiles.getTilesByType(assets.tile`myTile2`)) {
     }
 }
 game.onUpdate(function () {
-	
-})
-game.onUpdate(function () {
     if (controller.right.isPressed() && inMenu) {
         myMenu.close()
         myMenu = miniMenu.createMenu(
@@ -475,7 +531,8 @@ game.onUpdate(function () {
         miniMenu.createMenuItem("Weaponsmiths " + "x" + items[itemNames.indexOf("Weaponsmiths")]),
         miniMenu.createMenuItem("Soldiers " + "x" + items[itemNames.indexOf("Soldiers")]),
         miniMenu.createMenuItem("Tree Farms " + "x" + items[itemNames.indexOf("Tree Farms")]),
-        miniMenu.createMenuItem("Cactus Farms " + "x" + items[itemNames.indexOf("Cactus Farms")])
+        miniMenu.createMenuItem("Cactus Farms " + "x" + items[itemNames.indexOf("Cactus Farms")]),
+        miniMenu.createMenuItem("Farmers" + "x" + items[itemNames.indexOf("Farmers")])
         )
         myMenu.z = 1000
         myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
@@ -484,7 +541,8 @@ game.onUpdate(function () {
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 5)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
         myMenu.setTitle("Placeable Resources")
         arrowSprite.setImage(img`
             . . . . . . . 2 
@@ -661,7 +719,8 @@ game.onUpdate(function () {
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 5)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
         myMenu.setTitle("Inventory")
         arrowSprite.setImage(img`
             2 . . . . . . . 
@@ -685,30 +744,39 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
+	
+})
+game.onUpdate(function () {
+	
+})
+game.onUpdate(function () {
     for (let value5 of tiles.getTilesByType(assets.tile`myTile3`)) {
         if (Math.percentChance(1)) {
-            Smoke2 = sprites.create(img`
-                . . . . b b b b b b b . . . . 
-                . . b b b b b b b b b b b . . 
-                . b b b b b b b b b b b b b . 
-                . b b b b b b b b b b b b b . 
-                b b b b b b b b b b b b b b b 
-                b b b b b b b b b b b b b b b 
-                b b b b b b b b b b b b b b b 
-                b b b b b b b b b b b b b b b 
-                b b b b b b b b b b b b b b b 
-                b b b b b b b b b b b b b b b 
-                b b b b b b b b b b b b b b b 
-                . b b b b b b b b b b b b b . 
-                . b b b b b b b b b b b b b . 
-                . . b b b b b b b b b b b . . 
-                . . . . b b b b b b b . . . . 
-                `, SpriteKind.Smoke)
-            Smoke2.setFlag(SpriteFlag.Ghost, true)
-            Smoke2.setPosition(value5.x + randint(-3, 3), value5.y)
-            Smoke2.scale = randint(5, 100) / 100
-            Smoke2.vy = randint(-10, -25)
-            Smoke2.lifespan = 4000
+            if (Math.abs(value5.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value5.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
+                Smoke2 = sprites.create(img`
+                    . . . . b b b b b b b . . . . 
+                    . . b b b b b b b b b b b . . 
+                    . b b b b b b b b b b b b b . 
+                    . b b b b b b b b b b b b b . 
+                    b b b b b b b b b b b b b b b 
+                    b b b b b b b b b b b b b b b 
+                    b b b b b b b b b b b b b b b 
+                    b b b b b b b b b b b b b b b 
+                    b b b b b b b b b b b b b b b 
+                    b b b b b b b b b b b b b b b 
+                    b b b b b b b b b b b b b b b 
+                    . b b b b b b b b b b b b b . 
+                    . b b b b b b b b b b b b b . 
+                    . . b b b b b b b b b b b . . 
+                    . . . . b b b b b b b . . . . 
+                    `, SpriteKind.Smoke)
+                Smoke2.setFlag(SpriteFlag.AutoDestroy, true)
+                Smoke2.setFlag(SpriteFlag.Ghost, true)
+                Smoke2.setPosition(value5.x + randint(-3, 3), value5.y)
+                Smoke2.scale = randint(5, 100) / 100
+                Smoke2.vy = randint(-10, -25)
+                Smoke2.lifespan = 4000
+            }
         }
     }
 })
@@ -719,7 +787,12 @@ game.onUpdateInterval(18750, function () {
         Indicator.y = 1
     }
 })
-game.onUpdateInterval(1000, function () {
+forever(function () {
+    mySprite.bottom = Collision2.bottom + 1
+    mySprite.x = Collision2.x
+    mySprite.z = Collision2.bottom
+})
+game.onUpdateInterval(1200, function () {
     if (inMenu) {
         if (arrowSprite.right < 159) {
             arrowSprite.x += 1
@@ -732,9 +805,4 @@ game.onUpdateInterval(1000, function () {
     } else {
         loadSprites()
     }
-})
-forever(function () {
-    mySprite.bottom = Collision2.bottom + 1
-    mySprite.x = Collision2.x
-    mySprite.z = Collision2.bottom
 })
