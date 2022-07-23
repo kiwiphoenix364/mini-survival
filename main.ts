@@ -28,7 +28,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, l
 function loadSprites () {
     timer.background(function () {
         sprites.destroyAllSpritesOfKind(SpriteKind.Tree)
-        for (let value of list) {
+        for (let value of tiles.getTilesByType(assets.tile`myTile5`)) {
             if (Math.abs(value.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
                 Obj = sprites.create(img`
                     .......6........
@@ -70,8 +70,8 @@ function loadSprites () {
                 Obj.z = Obj.bottom
             }
         }
-        for (let value of tiles.getTilesByType(assets.tile`myTile4`)) {
-            if (Math.abs(value.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
+        for (let value2 of tiles.getTilesByType(assets.tile`myTile4`)) {
+            if (Math.abs(value2.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value2.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
                 Obj = sprites.create(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . a . . . . . . . 
@@ -91,13 +91,13 @@ function loadSprites () {
                     . . . 6 . . . . . a . a . . . . 
                     `, SpriteKind.Tree)
                 Obj.setFlag(SpriteFlag.Ghost, true)
-                Obj.x = value.x
-                Obj.bottom = value.y
+                Obj.x = value2.x
+                Obj.bottom = value2.y
                 Obj.z = Obj.bottom
             }
         }
-        for (let value of tiles.getTilesByType(assets.tile`myTile6`)) {
-            if (Math.abs(value.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
+        for (let value3 of tiles.getTilesByType(assets.tile`myTile6`)) {
+            if (Math.abs(value3.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value3.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
                 Obj = sprites.create(img`
                     ......77777.....
                     .....7777777....
@@ -125,8 +125,8 @@ function loadSprites () {
                     .....a777777....
                     `, SpriteKind.Tree)
                 Obj.setFlag(SpriteFlag.Ghost, true)
-                Obj.x = value.x
-                Obj.bottom = value.y
+                Obj.x = value3.x
+                Obj.bottom = value3.y
                 Obj.z = Obj.bottom
             }
         }
@@ -148,6 +148,42 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         controller.moveSprite(Collision2, 0, 0)
         inMenu = true
         myMenu = miniMenu.createMenu(
+        miniMenu.createMenuItem("Seeds " + "x" + items[itemNames.indexOf("Seeds")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . 7 7 . . . . 7 . . . . . 
+            . . . . . 7 . . . 7 . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . 7 . . . . 7 . . . . . 
+            . . . . . . 7 . . 7 7 . . . . . 
+            . . . 7 . . . . . . . . . . . . 
+            . . 7 . . . . . 7 . . . . . . . 
+            . . . . . . . . 7 . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
+        miniMenu.createMenuItem("Sticks " + "x" + items[itemNames.indexOf("Sticks")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . e f . . . 
+            . . . . . . . . . . e e e . . . 
+            . . . . . . . . . e f e . . . . 
+            . . . . . . . . e e e . . . . . 
+            . . . . . . . e f e . . . . . . 
+            . . . . . . e e e . . . . . . . 
+            . . . . . e f e . . . . . . . . 
+            . . . . e e e . . . . . . . . . 
+            . . . e f e . . . . . . . . . . 
+            . . e e e . . . . . . . . . . . 
+            . . f e . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
         miniMenu.createMenuItem("Wood " + "x" + items[itemNames.indexOf("Wood")], img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -163,6 +199,24 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . e e e e e e . . . . . 
             . . . . . e e e e e e . . . . . 
             . . . . . . e e e e . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
+        miniMenu.createMenuItem("Saplings " + "x" + items[itemNames.indexOf("Saplings")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . 6 . . . . . . . 
+            . . . . . . . 6 6 6 . . . . . . 
+            . . . . . . 6 6 e 6 6 . . . . . 
+            . . . . . 6 6 e e e 6 6 . . . . 
+            . . . . 6 6 6 6 e 6 6 6 6 . . . 
+            . . . 6 6 6 6 e e 6 6 6 6 6 . . 
+            . . . 6 6 6 e e e e 6 6 6 6 . . 
+            . . . . 6 . e e e e e . 6 . . . 
+            . . . . . . e e e e e . . . . . 
+            . . . . . e e e e e e e . . . . 
+            . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             `),
@@ -282,11 +336,13 @@ let myMenu: miniMenu.MenuSprite = null
 let Obj: Sprite = null
 let inMenu = false
 let RandomNum = 0
-let list: Image[] = []
 let Collision2: Sprite = null
 let itemNames: string[] = []
 let items: number[] = []
 items = [
+0,
+0,
+0,
 0,
 0,
 0,
@@ -310,26 +366,29 @@ itemNames = [
 "Weaponsmiths",
 "Soldiers",
 "Tree Farms",
-"Cactus Farms"
+"Cactus Farms",
+"Seeds",
+"Saplings",
+"Sticks"
 ]
 color.setColor(10, color.rgb(50, 200, 50))
 let mySprite2 = sprites.create(img`
-    9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-    9 3 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-    3 3 3 9 9 9 9 9 9 9 9 9 9 9 9 9 
-    9 7 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-    9 7 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-    9 7 9 2 9 9 9 9 9 2 9 2 9 9 9 9 
-    2 9 9 9 2 9 9 9 2 9 9 9 2 9 9 9 
-    9 2 9 2 9 2 9 2 9 2 9 2 9 2 9 2 
-    2 9 2 9 2 9 2 9 2 9 2 9 2 9 2 9 
-    2 9 2 9 2 9 2 9 2 9 2 9 2 9 2 9 
-    9 2 9 7 9 2 9 2 9 2 9 2 9 2 9 2 
-    2 2 7 9 2 2 2 9 2 2 2 9 2 2 2 9 
-    2 4 4 2 9 2 9 2 2 2 2 2 9 2 9 2 
-    4 4 4 4 2 2 2 2 2 2 2 2 2 2 2 2 
-    4 4 4 4 2 2 2 2 2 2 2 2 2 2 2 2 
-    4 4 4 4 2 2 2 2 2 2 2 2 2 2 2 2 
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+    1 9 3 9 9 9 9 9 9 9 9 9 9 9 9 1 
+    1 3 3 3 9 9 9 9 9 9 9 9 9 9 9 1 
+    1 9 7 9 9 9 9 9 9 9 9 9 9 9 9 1 
+    1 9 7 9 9 9 9 9 9 9 9 9 9 9 9 1 
+    1 9 7 2 9 9 9 9 9 2 9 2 9 9 9 1 
+    1 9 9 9 2 9 9 9 2 9 9 9 2 9 9 1 
+    1 2 9 2 9 2 9 2 9 2 9 2 9 2 9 1 
+    1 9 2 9 2 9 2 9 2 9 2 9 2 9 2 1 
+    1 9 2 9 2 9 2 9 2 9 2 9 2 9 2 1 
+    1 2 9 2 7 2 9 2 9 2 9 2 9 2 9 1 
+    1 2 2 7 2 2 2 9 2 2 2 9 2 2 2 1 
+    1 2 4 4 9 2 9 2 2 2 2 2 9 2 9 1 
+    1 4 4 4 4 2 2 2 2 2 2 2 2 2 2 1 
+    1 4 4 4 4 2 2 2 2 2 2 2 2 2 2 1 
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
     `, SpriteKind.Smoke)
 mySprite2.setFlag(SpriteFlag.RelativeToCamera, true)
 mySprite2.right = 159
@@ -360,7 +419,7 @@ controller.moveSprite(Collision2, 100, 100)
 Collision2.setFlag(SpriteFlag.Invisible, true)
 scene.cameraFollowSprite(mySprite)
 tiles.setCurrentTilemap(tilemap`level1`)
-list = [
+let list = [
 assets.tile`myTile`,
 assets.tile`myTile0`,
 assets.tile`myTile1`,
@@ -382,26 +441,26 @@ for (let index = 0; index <= 63; index++) {
         }
     }
 }
-for (let value of tiles.getTilesByType(assets.tile`myTile1`)) {
+for (let value4 of tiles.getTilesByType(assets.tile`myTile1`)) {
     if (Math.percentChance(5)) {
-        tiles.setTileAt(value, assets.tile`myTile5`)
-        tiles.setWallAt(value, true)
+        tiles.setTileAt(value4, assets.tile`myTile5`)
+        tiles.setWallAt(value4, true)
     }
 }
-for (let value2 of tiles.getTilesByType(assets.tile`myTile`)) {
+for (let value22 of tiles.getTilesByType(assets.tile`myTile`)) {
     if (Math.percentChance(5)) {
-        tiles.setTileAt(value2, assets.tile`myTile4`)
+        tiles.setTileAt(value22, assets.tile`myTile4`)
     }
 }
-for (let value3 of tiles.getTilesByType(assets.tile`myTile0`)) {
+for (let value32 of tiles.getTilesByType(assets.tile`myTile0`)) {
     if (Math.percentChance(5)) {
-        tiles.setTileAt(value3, assets.tile`myTile6`)
-        tiles.setWallAt(value3, true)
+        tiles.setTileAt(value32, assets.tile`myTile6`)
+        tiles.setWallAt(value32, true)
     }
 }
-for (let value4 of tiles.getTilesByType(assets.tile`myTile2`)) {
+for (let value42 of tiles.getTilesByType(assets.tile`myTile2`)) {
     if (Math.percentChance(3)) {
-        tiles.setTileAt(value4, assets.tile`myTile3`)
+        tiles.setTileAt(value42, assets.tile`myTile3`)
     }
 }
 game.onUpdate(function () {
@@ -450,6 +509,42 @@ game.onUpdate(function () {
     if (controller.left.isPressed() && inMenu) {
         myMenu.close()
         myMenu = miniMenu.createMenu(
+        miniMenu.createMenuItem("Seeds " + "x" + items[itemNames.indexOf("Seeds")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . 7 7 . . . . 7 . . . . . 
+            . . . . . 7 . . . 7 . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . 7 . . . . 7 . . . . . 
+            . . . . . . 7 . . 7 7 . . . . . 
+            . . . 7 . . . . . . . . . . . . 
+            . . 7 . . . . . 7 . . . . . . . 
+            . . . . . . . . 7 . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
+        miniMenu.createMenuItem("Sticks " + "x" + items[itemNames.indexOf("Sticks")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . e f . . . 
+            . . . . . . . . . . e e e . . . 
+            . . . . . . . . . e f e . . . . 
+            . . . . . . . . e e e . . . . . 
+            . . . . . . . e f e . . . . . . 
+            . . . . . . e e e . . . . . . . 
+            . . . . . e f e . . . . . . . . 
+            . . . . e e e . . . . . . . . . 
+            . . . e f e . . . . . . . . . . 
+            . . e e e . . . . . . . . . . . 
+            . . f e . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
         miniMenu.createMenuItem("Wood " + "x" + items[itemNames.indexOf("Wood")], img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -465,6 +560,24 @@ game.onUpdate(function () {
             . . . . . e e e e e e . . . . . 
             . . . . . e e e e e e . . . . . 
             . . . . . . e e e e . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
+        miniMenu.createMenuItem("Saplings " + "x" + items[itemNames.indexOf("Saplings")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . 6 . . . . . . . 
+            . . . . . . . 6 6 6 . . . . . . 
+            . . . . . . 6 6 e 6 6 . . . . . 
+            . . . . . 6 6 e e e 6 6 . . . . 
+            . . . . 6 6 6 6 e 6 6 6 6 . . . 
+            . . . 6 6 6 6 e e 6 6 6 6 6 . . 
+            . . . 6 6 6 e e e e 6 6 6 6 . . 
+            . . . . 6 . e e e e e . 6 . . . 
+            . . . . . . e e e e e . . . . . 
+            . . . . . e e e e e e e . . . . 
+            . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             `),
@@ -600,7 +713,11 @@ game.onUpdate(function () {
     }
 })
 game.onUpdateInterval(18750, function () {
-	
+    if (Indicator.y < 17) {
+        Indicator.y += 1
+    } else {
+        Indicator.y = 1
+    }
 })
 game.onUpdateInterval(1000, function () {
     if (inMenu) {
