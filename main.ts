@@ -40,7 +40,14 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, l
     timer.throttle("action", 100, function () {
         if (!(inMenu)) {
             if (controller.A.isPressed()) {
-                mySprite.sayText("+1 Grass")
+                if (Math.percentChance(20)) {
+                    mySprite.sayText("+1 Seeds, +1 Sticks", 500, false)
+                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
+                    items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + 1
+                } else {
+                    mySprite.sayText("+1 Seeds", 500, false)
+                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
+                }
                 tiles.setTileAt(location, assets.tile`myTile`)
                 tiles.setWallAt(location, false)
                 loadSprites()
@@ -50,9 +57,20 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, l
 })
 function loadSprites () {
     timer.background(function () {
-        Repeat = tiles.getTilesByType(assets.tile`myTile5`).length / 3000
+        for (let value of sprites.allOfKind(SpriteKind.Tree)) {
+            if (scene.cameraProperty(CameraProperty.X) > mySprite.x + 96) {
+                value.destroy()
+            } else if (scene.cameraProperty(CameraProperty.X) < mySprite.x - 96) {
+                value.destroy()
+            } else if (scene.cameraProperty(CameraProperty.Y) > mySprite.y + 76) {
+                value.destroy()
+            } else if (scene.cameraProperty(CameraProperty.Y) < mySprite.y - 76) {
+                value.destroy()
+            }
+        }
+        Repeat = tiles.getTilesByType(assets.tile`myTile5`).length / 6000
         for (let value of tiles.getTilesByType(assets.tile`myTile5`)) {
-            if (Math.abs(value.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
+            if (value.x > mySprite.x - 120 && value.x < mySprite.x + 120 && (value.y < mySprite.y + 100 && value.y > mySprite.y - 100)) {
                 Obj = sprites.create(img`
                     .......6........
                     ......666.......
@@ -92,13 +110,12 @@ function loadSprites () {
                 Obj.x = value.x
                 Obj.bottom = value.y
                 Obj.z = Obj.bottom
+                pause(Repeat)
             }
-            pause(Repeat)
         }
-        pause(100)
-        Repeat = tiles.getTilesByType(assets.tile`myTile4`).length / 3000
-        for (let value2 of tiles.getTilesByType(assets.tile`myTile4`)) {
-            if (Math.abs(value2.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value2.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
+        Repeat = tiles.getTilesByType(assets.tile`myTile4`).length / 6000
+        for (let value of tiles.getTilesByType(assets.tile`myTile4`)) {
+            if (value.x > mySprite.x - 120 && value.x < mySprite.x + 120 && (value.y < mySprite.y + 100 && value.y > mySprite.y - 100)) {
                 Obj = sprites.create(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . a . . . . . . . 
@@ -119,16 +136,15 @@ function loadSprites () {
                     `, SpriteKind.Tree)
                 Obj.lifespan = 1250
                 Obj.setFlag(SpriteFlag.Ghost, true)
-                Obj.x = value2.x
-                Obj.bottom = value2.y
+                Obj.x = value.x
+                Obj.bottom = value.y
                 Obj.z = Obj.bottom
+                pause(Repeat)
             }
-            pause(Repeat)
         }
-        pause(100)
-        Repeat = tiles.getTilesByType(assets.tile`myTile6`).length / 3000
-        for (let value3 of tiles.getTilesByType(assets.tile`myTile6`)) {
-            if (Math.abs(value3.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value3.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
+        Repeat = tiles.getTilesByType(assets.tile`myTile6`).length / 6000
+        for (let value of tiles.getTilesByType(assets.tile`myTile6`)) {
+            if (value.x > mySprite.x - 120 && value.x < mySprite.x + 120 && (value.y < mySprite.y + 100 && value.y > mySprite.y - 100)) {
                 Obj = sprites.create(img`
                     ......77777.....
                     .....7777777....
@@ -157,11 +173,11 @@ function loadSprites () {
                     `, SpriteKind.Tree)
                 Obj.lifespan = 1250
                 Obj.setFlag(SpriteFlag.Ghost, true)
-                Obj.x = value3.x
-                Obj.bottom = value3.y
+                Obj.x = value.x
+                Obj.bottom = value.y
                 Obj.z = Obj.bottom
+                pause(Repeat)
             }
-            pause(Repeat)
         }
     })
 }
@@ -742,6 +758,9 @@ game.onUpdate(function () {
             `)
         arrowSprite.right = 158
     }
+    mySprite.bottom = Collision2.bottom + 1
+    mySprite.x = Collision2.x
+    mySprite.z = Collision2.bottom
 })
 game.onUpdate(function () {
 	
@@ -788,11 +807,9 @@ game.onUpdateInterval(18750, function () {
     }
 })
 forever(function () {
-    mySprite.bottom = Collision2.bottom + 1
-    mySprite.x = Collision2.x
-    mySprite.z = Collision2.bottom
+	
 })
-game.onUpdateInterval(1200, function () {
+game.onUpdateInterval(500, function () {
     if (inMenu) {
         if (arrowSprite.right < 159) {
             arrowSprite.x += 1
