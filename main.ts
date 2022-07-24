@@ -36,6 +36,243 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         Reload_Tool_Menu()
     }
 })
+controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (controller.right.isPressed() && inMenu && menuNum == 1) {
+        myMenu.close()
+        myMenu = miniMenu.createMenu(
+        miniMenu.createMenuItem("Houses " + "x" + items[itemNames.indexOf("Houses")]),
+        miniMenu.createMenuItem("Mines " + "x" + items[itemNames.indexOf("Mines")]),
+        miniMenu.createMenuItem("Weaponsmiths " + "x" + items[itemNames.indexOf("Weaponsmiths")]),
+        miniMenu.createMenuItem("Soldiers " + "x" + items[itemNames.indexOf("Soldiers")]),
+        miniMenu.createMenuItem("Tree Farms " + "x" + items[itemNames.indexOf("Tree Farms")]),
+        miniMenu.createMenuItem("Cactus Farms " + "x" + items[itemNames.indexOf("Cactus Farms")]),
+        miniMenu.createMenuItem("Farmers" + "x" + items[itemNames.indexOf("Farmers")])
+        )
+        myMenu.z = 1000
+        myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+        myMenu.setTitle("Placeable Resources")
+        arrowSprite.setFlag(SpriteFlag.Invisible, true)
+        menuNum = 2
+        myMenu.top = 1
+        myMenu.left = 11
+    } else if (controller.left.isPressed() && inMenu && menuNum == 2 || controller.right.isPressed() && inMenu && menuNum == 3) {
+        myMenu.close()
+        myMenu = miniMenu.createMenu(
+        miniMenu.createMenuItem("Seeds " + "x" + items[itemNames.indexOf("Seeds")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . 7 7 . . . . 7 . . . . . 
+            . . . . . 7 . . . 7 . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . 7 . . . . 7 . . . . . 
+            . . . . . . 7 . . 7 7 . . . . . 
+            . . . 7 . . . . . . . . . . . . 
+            . . 7 . . . . . 7 . . . . . . . 
+            . . . . . . . . 7 . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
+        miniMenu.createMenuItem("Sticks " + "x" + items[itemNames.indexOf("Sticks")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . e f . . . 
+            . . . . . . . . . . e e e . . . 
+            . . . . . . . . . e f e . . . . 
+            . . . . . . . . e e e . . . . . 
+            . . . . . . . e f e . . . . . . 
+            . . . . . . e e e . . . . . . . 
+            . . . . . e f e . . . . . . . . 
+            . . . . e e e . . . . . . . . . 
+            . . . e f e . . . . . . . . . . 
+            . . e e e . . . . . . . . . . . 
+            . . f e . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
+        miniMenu.createMenuItem("Wood " + "x" + items[itemNames.indexOf("Wood")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . d d d d . . . . . . 
+            . . . . . d d e e d d . . . . . 
+            . . . . . d e d d e d . . . . . 
+            . . . . . d d e e d d . . . . . 
+            . . . . . e d d d d e . . . . . 
+            . . . . . e e e e e e . . . . . 
+            . . . . . e e e e e e . . . . . 
+            . . . . . e e e e e e . . . . . 
+            . . . . . e e e e e e . . . . . 
+            . . . . . e e e e e e . . . . . 
+            . . . . . e e e e e e . . . . . 
+            . . . . . . e e e e . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
+        miniMenu.createMenuItem("Saplings " + "x" + items[itemNames.indexOf("Saplings")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . 6 . . . . . . . 
+            . . . . . . . 6 6 6 . . . . . . 
+            . . . . . . 6 6 e 6 6 . . . . . 
+            . . . . . 6 6 e e e 6 6 . . . . 
+            . . . . 6 6 6 6 e 6 6 6 6 . . . 
+            . . . 6 6 6 6 e e 6 6 6 6 6 . . 
+            . . . 6 6 6 e e e e 6 6 6 6 . . 
+            . . . . 6 . e e e e e . 6 . . . 
+            . . . . . . e e e e e . . . . . 
+            . . . . . e e e e e e e . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
+        miniMenu.createMenuItem("Wheat " + "x" + items[itemNames.indexOf("Wheat")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . 5 . 5 . 5 . . . . . . 
+            . . . . . . 5 5 5 . 5 . . . . . 
+            . . . . . . 5 5 5 5 . . . . . . 
+            . . . . . . e e 5 5 . . . . . . 
+            . . . . . . 5 5 e e . . . . . . 
+            . . . . . . 5 5 5 . . . . . . . 
+            . . . . . e e 5 5 . . . . . . . 
+            . . . . . 5 5 e e . . . . . . . 
+            . . . . 5 5 5 5 5 . . . . . . . 
+            . . . . . . 5 5 5 . . . . . . . 
+            . . . . . 5 . 5 . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
+        miniMenu.createMenuItem("Stone " + "x" + items[itemNames.indexOf("Stone")], img`
+            c b c c c c c c c c c c c c c c 
+            c b c c c c c c c c c c c c c b 
+            c b c c c c c c c c c c c c c b 
+            c b c c c c c c b c c c c c c b 
+            c b c c c c c c b c c b c c c b 
+            c b c c c c c c b c c b c c c b 
+            c c c c c c c c b c c b c c c b 
+            c c c c c c c c b c c b c c c b 
+            c c c c c c c c b c c b c c c b 
+            c c c c c c c c c c c b c c c c 
+            c c c c b c c c c c c b c c c c 
+            c c c c b c c c c c c c c c c c 
+            c c c c b c c c c c c c c c c c 
+            c c c c b c c c c c c c c c c c 
+            c c c c b c c c c c c c c c c c 
+            c c c c b c c c c c c c c c c c 
+            `),
+        miniMenu.createMenuItem("Cactus " + "x" + items[itemNames.indexOf("Cactus")], img`
+            . . . . . . 7 7 7 . . . . . . . 
+            . . . . . 7 7 7 7 7 . . . . . . 
+            . . . . . a 7 7 7 7 . . 7 7 . . 
+            . . . . . 7 7 7 7 7 . 7 7 7 7 . 
+            . . . . . a 7 7 7 7 . a 7 7 7 . 
+            . . 7 . . 7 7 7 7 7 . 7 7 7 7 . 
+            . 7 7 7 . a 7 7 7 7 . a 7 7 7 . 
+            . a 7 7 . 7 7 7 7 7 . 7 7 7 7 . 
+            . 7 7 7 . a 7 7 7 7 . a 7 7 7 . 
+            . a 7 7 7 7 7 7 7 7 . 7 7 7 7 . 
+            . . 7 7 7 7 7 7 7 7 7 7 7 7 . . 
+            . . . . . 7 7 7 7 7 7 7 7 . . . 
+            . . . . . a 7 7 7 7 7 7 . . . . 
+            . . . . . 7 7 7 7 7 . . . . . . 
+            . . . . . a 7 7 7 7 . . . . . . 
+            . . . . . 7 7 7 7 7 . . . . . . 
+            `),
+        miniMenu.createMenuItem("Iron " + "x" + items[itemNames.indexOf("Iron")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . 1 1 . . . . . . . . . . . 
+            . . . 1 1 1 1 . . . . . . . . . 
+            . . 1 1 1 1 1 1 1 . . . . . . . 
+            . . 1 1 1 1 1 1 1 1 1 . . . . . 
+            . . d d 1 1 1 1 1 d 1 1 1 . . . 
+            . . . . d d 1 1 1 1 d 1 1 . . . 
+            . . . . . . d d 1 1 1 1 1 . . . 
+            . . . . . . . . d d 1 1 . . . . 
+            . . . . . . . . . . d d . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
+        miniMenu.createMenuItem("Diamonds " + "x" + items[itemNames.indexOf("Diamonds")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . 9 9 9 9 9 9 . . . . . 
+            . . . . 9 9 9 9 9 9 9 9 . . . . 
+            . . . 9 6 9 9 9 9 9 9 6 9 . . . 
+            . . . 9 6 9 9 9 9 9 9 6 9 . . . 
+            . . . 9 9 6 9 9 9 9 6 9 9 . . . 
+            . . . 9 9 9 9 6 6 9 9 9 9 . . . 
+            . . . 9 9 9 6 9 9 6 9 9 9 . . . 
+            . . . 9 9 9 6 9 9 6 9 9 9 . . . 
+            . . . 9 9 9 9 6 6 9 9 9 9 . . . 
+            . . . 9 6 6 9 9 9 9 6 6 9 . . . 
+            . . . . 9 9 9 9 9 9 9 9 . . . . 
+            . . . . . . 9 9 9 9 . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+        )
+        myMenu.z = 1000
+        myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 138)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+        myMenu.setTitle("Inventory")
+        arrowSprite.setFlag(SpriteFlag.Invisible, false)
+        menuNum = 1
+        myMenu.top = 1
+        myMenu.left = 11
+    } else if (controller.left.isPressed() && inMenu && menuNum == 1) {
+        myMenu.close()
+        myMenu = miniMenu.createMenuFromArray([
+        miniMenu.createMenuItem("3x Sticks = Axe [LVL 1]"),
+        miniMenu.createMenuItem("2x Sticks + Wood = Axe [LVL 2]"),
+        miniMenu.createMenuItem("2x Sticks + Stone = Axe [LVL 3]"),
+        miniMenu.createMenuItem("2x Sticks + Iron = Axe [LVL 4]"),
+        miniMenu.createMenuItem("2x Sticks + Diamond = Axe [MAX LVL]"),
+        miniMenu.createMenuItem("2x Sticks + 3x Wood = Pick [LVL 1]"),
+        miniMenu.createMenuItem("2x Sticks + 3x Stone = Pick [LVL 2]"),
+        miniMenu.createMenuItem("2x Sticks + 3x Iron = Pick [LVL 3]"),
+        miniMenu.createMenuItem("2x Sticks + 3x Diamond = Pick [MAX LVL]"),
+        miniMenu.createMenuItem("2x Sticks + 2x Stone = Hoe [LVL 1]"),
+        miniMenu.createMenuItem("2x Sticks + 2x Iron = Hoe [LVL 2]"),
+        miniMenu.createMenuItem("2x Sticks + 2x Diamond = Hoe [LVL 3]"),
+        miniMenu.createMenuItem("3x Cactus + 1 Axe = Cactus Farm [AXE LVL]"),
+        miniMenu.createMenuItem("3x Saplings + 1 Axe = Tree Farm [AXE LVL]"),
+        miniMenu.createMenuItem("10x Seeds + 1 Hoe = Wheat Farm [HOE LVL]"),
+        miniMenu.createMenuItem("10x Wood + 4x Iron = House + Hired Farmer"),
+        miniMenu.createMenuItem("10x Wood + 4x Iron + 2 Sticks + 4 Materials = House + Hired Soldier [LVL MATERIAL]")
+        ])
+        myMenu.z = 1000
+        myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+        myMenu.setTitle("Crafts")
+        arrowSprite.setFlag(SpriteFlag.Invisible, false)
+        menuNum = 3
+        myMenu.top = 1
+        myMenu.left = 1
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
     timer.throttle("action", 100, function () {
         if (!(inMenu)) {
@@ -269,6 +506,24 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             `),
+        miniMenu.createMenuItem("Wheat " + "x" + items[itemNames.indexOf("Wheat")], img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . 5 . 5 . 5 . . . . . . 
+            . . . . . . 5 5 5 . 5 . . . . . 
+            . . . . . . 5 5 5 5 . . . . . . 
+            . . . . . . e e 5 5 . . . . . . 
+            . . . . . . 5 5 e e . . . . . . 
+            . . . . . . 5 5 5 . . . . . . . 
+            . . . . . e e 5 5 . . . . . . . 
+            . . . . . 5 5 e e . . . . . . . 
+            . . . . 5 5 5 5 5 . . . . . . . 
+            . . . . . . 5 5 5 . . . . . . . 
+            . . . . . 5 . 5 . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `),
         miniMenu.createMenuItem("Stone " + "x" + items[itemNames.indexOf("Stone")], img`
             c b c c c c c c c c c c c c c c 
             c b c c c c c c c c c c c c c b 
@@ -345,40 +600,66 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         myMenu.z = 1000
         myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
         myMenu.top = 1
-        myMenu.left = 1
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
+        myMenu.left = 11
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 138)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
         myMenu.setTitle("Inventory")
         arrowSprite = sprites.create(img`
-            2 . . . . . . . 
-            2 2 . . . . . . 
-            2 2 2 . . . . . 
-            2 2 2 2 . . . . 
-            2 2 2 2 2 . . . 
-            2 2 2 2 2 2 . . 
-            2 2 2 2 2 2 2 . 
-            2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 . 
-            2 2 2 2 2 2 . . 
-            2 2 2 2 2 . . . 
-            2 2 2 2 . . . . 
-            2 2 2 . . . . . 
-            2 2 . . . . . . 
-            2 . . . . . . . 
+            f . . . . . . . 
+            1 f . . . . . . 
+            1 1 f . . . . . 
+            1 1 1 f . . . . 
+            1 1 1 1 f . . . 
+            1 1 1 1 1 f . . 
+            1 1 1 1 1 1 f . 
+            1 1 1 1 1 1 1 f 
+            1 1 1 1 1 1 f . 
+            1 1 1 1 1 f . . 
+            1 1 1 1 f . . . 
+            1 1 1 f . . . . 
+            1 1 f . . . . . 
+            1 f . . . . . . 
+            f . . . . . . . 
             . . . . . . . . 
             `, SpriteKind.Player)
         arrowSprite.setFlag(SpriteFlag.Ghost, true)
         arrowSprite.setFlag(SpriteFlag.RelativeToCamera, true)
         arrowSprite.right = 158
         arrowSprite.y = 60
+        arrowSprite.z = 999
+        arrowSprite2 = sprites.create(img`
+            . . . . . . . f 
+            . . . . . . f 1 
+            . . . . . f 1 1 
+            . . . . f 1 1 1 
+            . . . f 1 1 1 1 
+            . . f 1 1 1 1 1 
+            . f 1 1 1 1 1 1 
+            f 1 1 1 1 1 1 1 
+            . f 1 1 1 1 1 1 
+            . . f 1 1 1 1 1 
+            . . . f 1 1 1 1 
+            . . . . f 1 1 1 
+            . . . . . f 1 1 
+            . . . . . . f 1 
+            . . . . . . . f 
+            . . . . . . . . 
+            `, SpriteKind.Player)
+        arrowSprite2.setFlag(SpriteFlag.Ghost, true)
+        arrowSprite2.setFlag(SpriteFlag.RelativeToCamera, true)
+        arrowSprite2.left = 1
+        arrowSprite2.y = 60
+        arrowSprite2.z = 999
+        menuNum = 1
     } else {
         myMenu.close()
         arrowSprite.destroy()
         inMenu = false
         controller.moveSprite(Collision2)
+        menuNum = 0
     }
 })
 controller.B.onEvent(ControllerButtonEvent.Released, function () {
@@ -386,10 +667,12 @@ controller.B.onEvent(ControllerButtonEvent.Released, function () {
     ToolMenu.setButtonEventsEnabled(false)
 })
 let Smoke2: Sprite = null
-let arrowSprite: Sprite = null
-let myMenu: miniMenu.MenuSprite = null
+let arrowSprite2: Sprite = null
 let Obj: Sprite = null
 let Repeat = 0
+let arrowSprite: Sprite = null
+let myMenu: miniMenu.MenuSprite = null
+let menuNum = 0
 let inMenu = false
 let RandomNum = 0
 let Collision2: Sprite = null
@@ -398,7 +681,7 @@ let itemNames: string[] = []
 let items: number[] = []
 let ToolMenu: miniMenu.MenuSprite = null
 stats.turnStats(true)
-let ToolLevels: number[] = []
+let ToolNum: number[] = []
 let Tools: number[] = []
 ToolMenu = miniMenu.createMenu(
 miniMenu.createMenuItem("[None]")
@@ -539,225 +822,6 @@ for (let value42 of tiles.getTilesByType(assets.tile`myTile2`)) {
     }
 }
 game.onUpdate(function () {
-    if (controller.right.isPressed() && inMenu) {
-        myMenu.close()
-        myMenu = miniMenu.createMenu(
-        miniMenu.createMenuItem("Houses " + "x" + items[itemNames.indexOf("Houses")]),
-        miniMenu.createMenuItem("Mines " + "x" + items[itemNames.indexOf("Mines")]),
-        miniMenu.createMenuItem("Weaponsmiths " + "x" + items[itemNames.indexOf("Weaponsmiths")]),
-        miniMenu.createMenuItem("Soldiers " + "x" + items[itemNames.indexOf("Soldiers")]),
-        miniMenu.createMenuItem("Tree Farms " + "x" + items[itemNames.indexOf("Tree Farms")]),
-        miniMenu.createMenuItem("Cactus Farms " + "x" + items[itemNames.indexOf("Cactus Farms")]),
-        miniMenu.createMenuItem("Farmers" + "x" + items[itemNames.indexOf("Farmers")])
-        )
-        myMenu.z = 1000
-        myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
-        myMenu.top = 1
-        myMenu.left = 11
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
-        myMenu.setTitle("Placeable Resources")
-        arrowSprite.setImage(img`
-            . . . . . . . 2 
-            . . . . . . 2 2 
-            . . . . . 2 2 2 
-            . . . . 2 2 2 2 
-            . . . 2 2 2 2 2 
-            . . 2 2 2 2 2 2 
-            . 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 2 
-            . 2 2 2 2 2 2 2 
-            . . 2 2 2 2 2 2 
-            . . . 2 2 2 2 2 
-            . . . . 2 2 2 2 
-            . . . . . 2 2 2 
-            . . . . . . 2 2 
-            . . . . . . . 2 
-            . . . . . . . . 
-            `)
-        arrowSprite.left = 1
-    }
-    if (controller.left.isPressed() && inMenu) {
-        myMenu.close()
-        myMenu = miniMenu.createMenu(
-        miniMenu.createMenuItem("Seeds " + "x" + items[itemNames.indexOf("Seeds")], img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . 7 7 . . . . 7 . . . . . 
-            . . . . . 7 . . . 7 . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . 7 . . . . 7 . . . . . 
-            . . . . . . 7 . . 7 7 . . . . . 
-            . . . 7 . . . . . . . . . . . . 
-            . . 7 . . . . . 7 . . . . . . . 
-            . . . . . . . . 7 . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `),
-        miniMenu.createMenuItem("Sticks " + "x" + items[itemNames.indexOf("Sticks")], img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . e f . . . 
-            . . . . . . . . . . e e e . . . 
-            . . . . . . . . . e f e . . . . 
-            . . . . . . . . e e e . . . . . 
-            . . . . . . . e f e . . . . . . 
-            . . . . . . e e e . . . . . . . 
-            . . . . . e f e . . . . . . . . 
-            . . . . e e e . . . . . . . . . 
-            . . . e f e . . . . . . . . . . 
-            . . e e e . . . . . . . . . . . 
-            . . f e . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `),
-        miniMenu.createMenuItem("Wood " + "x" + items[itemNames.indexOf("Wood")], img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . d d d d . . . . . . 
-            . . . . . d d e e d d . . . . . 
-            . . . . . d e d d e d . . . . . 
-            . . . . . d d e e d d . . . . . 
-            . . . . . e d d d d e . . . . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . . . e e e e . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `),
-        miniMenu.createMenuItem("Saplings " + "x" + items[itemNames.indexOf("Saplings")], img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . 6 . . . . . . . 
-            . . . . . . . 6 6 6 . . . . . . 
-            . . . . . . 6 6 e 6 6 . . . . . 
-            . . . . . 6 6 e e e 6 6 . . . . 
-            . . . . 6 6 6 6 e 6 6 6 6 . . . 
-            . . . 6 6 6 6 e e 6 6 6 6 6 . . 
-            . . . 6 6 6 e e e e 6 6 6 6 . . 
-            . . . . 6 . e e e e e . 6 . . . 
-            . . . . . . e e e e e . . . . . 
-            . . . . . e e e e e e e . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `),
-        miniMenu.createMenuItem("Stone " + "x" + items[itemNames.indexOf("Stone")], img`
-            c b c c c c c c c c c c c c c c 
-            c b c c c c c c c c c c c c c b 
-            c b c c c c c c c c c c c c c b 
-            c b c c c c c c b c c c c c c b 
-            c b c c c c c c b c c b c c c b 
-            c b c c c c c c b c c b c c c b 
-            c c c c c c c c b c c b c c c b 
-            c c c c c c c c b c c b c c c b 
-            c c c c c c c c b c c b c c c b 
-            c c c c c c c c c c c b c c c c 
-            c c c c b c c c c c c b c c c c 
-            c c c c b c c c c c c c c c c c 
-            c c c c b c c c c c c c c c c c 
-            c c c c b c c c c c c c c c c c 
-            c c c c b c c c c c c c c c c c 
-            c c c c b c c c c c c c c c c c 
-            `),
-        miniMenu.createMenuItem("Cactus " + "x" + items[itemNames.indexOf("Cactus")], img`
-            . . . . . . 7 7 7 . . . . . . . 
-            . . . . . 7 7 7 7 7 . . . . . . 
-            . . . . . a 7 7 7 7 . . 7 7 . . 
-            . . . . . 7 7 7 7 7 . 7 7 7 7 . 
-            . . . . . a 7 7 7 7 . a 7 7 7 . 
-            . . 7 . . 7 7 7 7 7 . 7 7 7 7 . 
-            . 7 7 7 . a 7 7 7 7 . a 7 7 7 . 
-            . a 7 7 . 7 7 7 7 7 . 7 7 7 7 . 
-            . 7 7 7 . a 7 7 7 7 . a 7 7 7 . 
-            . a 7 7 7 7 7 7 7 7 . 7 7 7 7 . 
-            . . 7 7 7 7 7 7 7 7 7 7 7 7 . . 
-            . . . . . 7 7 7 7 7 7 7 7 . . . 
-            . . . . . a 7 7 7 7 7 7 . . . . 
-            . . . . . 7 7 7 7 7 . . . . . . 
-            . . . . . a 7 7 7 7 . . . . . . 
-            . . . . . 7 7 7 7 7 . . . . . . 
-            `),
-        miniMenu.createMenuItem("Iron " + "x" + items[itemNames.indexOf("Iron")], img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . 1 1 . . . . . . . . . . . 
-            . . . 1 1 1 1 . . . . . . . . . 
-            . . 1 1 1 1 1 1 1 . . . . . . . 
-            . . 1 1 1 1 1 1 1 1 1 . . . . . 
-            . . d d 1 1 1 1 1 d 1 1 1 . . . 
-            . . . . d d 1 1 1 1 d 1 1 . . . 
-            . . . . . . d d 1 1 1 1 1 . . . 
-            . . . . . . . . d d 1 1 . . . . 
-            . . . . . . . . . . d d . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `),
-        miniMenu.createMenuItem("Diamonds " + "x" + items[itemNames.indexOf("Diamonds")], img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . 9 9 9 9 9 9 . . . . . 
-            . . . . 9 9 9 9 9 9 9 9 . . . . 
-            . . . 9 6 9 9 9 9 9 9 6 9 . . . 
-            . . . 9 6 9 9 9 9 9 9 6 9 . . . 
-            . . . 9 9 6 9 9 9 9 6 9 9 . . . 
-            . . . 9 9 9 9 6 6 9 9 9 9 . . . 
-            . . . 9 9 9 6 9 9 6 9 9 9 . . . 
-            . . . 9 9 9 6 9 9 6 9 9 9 . . . 
-            . . . 9 9 9 9 6 6 9 9 9 9 . . . 
-            . . . 9 6 6 9 9 9 9 6 6 9 . . . 
-            . . . . 9 9 9 9 9 9 9 9 . . . . 
-            . . . . . . 9 9 9 9 . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `)
-        )
-        myMenu.z = 1000
-        myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
-        myMenu.top = 1
-        myMenu.left = 1
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
-        myMenu.setTitle("Inventory")
-        arrowSprite.setImage(img`
-            2 . . . . . . . 
-            2 2 . . . . . . 
-            2 2 2 . . . . . 
-            2 2 2 2 . . . . 
-            2 2 2 2 2 . . . 
-            2 2 2 2 2 2 . . 
-            2 2 2 2 2 2 2 . 
-            2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 . 
-            2 2 2 2 2 2 . . 
-            2 2 2 2 2 . . . 
-            2 2 2 2 . . . . 
-            2 2 2 . . . . . 
-            2 2 . . . . . . 
-            2 . . . . . . . 
-            . . . . . . . . 
-            `)
-        arrowSprite.right = 158
-    }
     mySprite.bottom = Collision2.bottom + 1
     mySprite.x = Collision2.x
     mySprite.z = Collision2.bottom
@@ -799,6 +863,97 @@ game.onUpdate(function () {
         }
     }
 })
+game.onUpdate(function () {
+    if (inMenu) {
+        myMenu.onButtonPressed(controller.A, function (selection, selectedIndex) {
+            if (menuNum == 3) {
+                if (selectedIndex == 0) {
+                    if (items[itemNames.indexOf("Sticks")] >= 3) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 3
+                    }
+                } else if (selectedIndex == 1) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Wood")] >= 1) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Sticks")] - 1
+                    }
+                } else if (selectedIndex == 2) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 1) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 1
+                    }
+                } else if (selectedIndex == 3) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 1) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 1
+                    }
+                } else if (selectedIndex == 4) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 1) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Diamonds")] = items[itemNames.indexOf("Diamonds")] - 1
+                    }
+                } else if (selectedIndex == 5) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Wood")] >= 3) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 3
+                    }
+                } else if (selectedIndex == 6) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 3) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 3
+                    }
+                } else if (selectedIndex == 7) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 3) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 3
+                    }
+                } else if (selectedIndex == 8) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 3) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Diamond")] = items[itemNames.indexOf("Diamond")] - 3
+                    }
+                } else if (selectedIndex == 9) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 2) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 2
+                    }
+                } else if (selectedIndex == 10) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 2) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 2
+                    }
+                } else if (selectedIndex == 11) {
+                    if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 2) {
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        items[itemNames.indexOf("Diamonds")] = items[itemNames.indexOf("Diamonds")] - 2
+                    }
+                } else if (selectedIndex == 12) {
+                    if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe1")] >= 1 || (items[itemNames.indexOf("Axe2")] >= 1 || items[itemNames.indexOf("Axe3")] >= 1 || (items[itemNames.indexOf("Axe4")] >= 1 || items[itemNames.indexOf("Axe5")] >= 1)))) {
+                        items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] - 3
+                    }
+                } else if (selectedIndex == 13) {
+                    if (items[itemNames.indexOf("Saplings")] >= 3 && (items[itemNames.indexOf("Axe1")] >= 1 || (items[itemNames.indexOf("Axe2")] >= 1 || items[itemNames.indexOf("Axe3")] >= 1 || (items[itemNames.indexOf("Axe4")] >= 1 || items[itemNames.indexOf("Axe5")] >= 1)))) {
+                        items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] - 3
+                    }
+                } else if (selectedIndex == 14) {
+                    if (items[itemNames.indexOf("Seeds")] >= 10 && (items[itemNames.indexOf("Hoe1")] >= 1 || (items[itemNames.indexOf("Hoe2")] >= 1 || items[itemNames.indexOf("Hoe3")] >= 1 || (items[itemNames.indexOf("Hoe4")] >= 1 || items[itemNames.indexOf("Hoe5")] >= 1)))) {
+                        items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] - 10
+                    }
+                } else if (selectedIndex == 15) {
+                    if (items[itemNames.indexOf("Wood")] >= 10 && items[itemNames.indexOf("Iron")] >= 4) {
+                        items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 10
+                        items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 4
+                    }
+                } else if (selectedIndex == 16) {
+                    if (items[itemNames.indexOf("Wood")] >= 10 && items[itemNames.indexOf("Iron")] >= 4 && (items[itemNames.indexOf("Sticks")] >= 2 && (items[itemNames.indexOf("Iron")] >= 2 || items[itemNames.indexOf("Diamonds")] >= 2))) {
+                        items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 10
+                        items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 4
+                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                    }
+                }
+            }
+        })
+    }
+})
 game.onUpdateInterval(18750, function () {
     if (Indicator.y < 17) {
         Indicator.y += 1
@@ -811,13 +966,11 @@ forever(function () {
 })
 game.onUpdateInterval(500, function () {
     if (inMenu) {
-        if (arrowSprite.right < 159) {
-            arrowSprite.x += 1
-        }
-        timer.after(500, function () {
-            if (arrowSprite.left > 1) {
-                arrowSprite.x += -1
-            }
+        arrowSprite.x += 1
+        arrowSprite2.x += 1
+        timer.after(250, function () {
+            arrowSprite.x += -1
+            arrowSprite2.x += -1
         })
     } else {
         loadSprites()
