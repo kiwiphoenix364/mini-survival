@@ -16,9 +16,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, l
 })
 function Reload_Tool_Menu () {
     ToolMenu.destroy()
-    ToolMenu = miniMenu.createMenu(
-    miniMenu.createMenuItem("Tool")
-    )
+    ToolMenu = miniMenu.createMenuFromArray(ToolList)
     ToolMenu.setButtonEventsEnabled(false)
     ToolMenu.setFlag(SpriteFlag.RelativeToCamera, true)
     ToolMenu.setTitle("Tools")
@@ -252,7 +250,7 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
         miniMenu.createMenuItem("2x Sticks + 3x Diamond = Pick [MAX LVL]"),
         miniMenu.createMenuItem("2x Sticks + 2x Stone = Hoe [LVL 1]"),
         miniMenu.createMenuItem("2x Sticks + 2x Iron = Hoe [LVL 2]"),
-        miniMenu.createMenuItem("2x Sticks + 2x Diamond = Hoe [LVL 3]"),
+        miniMenu.createMenuItem("2x Sticks + 2x Diamond = Hoe [MAX LVL]"),
         miniMenu.createMenuItem("3x Cactus + 1 Axe = Cactus Farm [AXE LVL]"),
         miniMenu.createMenuItem("3x Saplings + 1 Axe = Tree Farm [AXE LVL]"),
         miniMenu.createMenuItem("10x Seeds + 1 Hoe = Wheat Farm [HOE LVL]"),
@@ -657,6 +655,7 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     } else {
         myMenu.close()
         arrowSprite.destroy()
+        arrowSprite2.destroy()
         inMenu = false
         controller.moveSprite(Collision2)
         menuNum = 0
@@ -680,9 +679,29 @@ let mySprite: Sprite = null
 let itemNames: string[] = []
 let items: number[] = []
 let ToolMenu: miniMenu.MenuSprite = null
+let ToolList: miniMenu.MenuItem[] = []
 stats.turnStats(true)
-let ToolNum: number[] = []
-let Tools: number[] = []
+let ToolNum = [
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0
+]
+let Tools: string[] = []
+ToolList = [miniMenu.createMenuItem("[NONE]")]
 ToolMenu = miniMenu.createMenu(
 miniMenu.createMenuItem("[None]")
 )
@@ -870,72 +889,132 @@ game.onUpdate(function () {
                 if (selectedIndex == 0) {
                     if (items[itemNames.indexOf("Sticks")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 3
+                        if (true) {
+                            Tools[selectedIndex] = "Axe [LVL 1]"
+                            ToolNum[Tools.indexOf("Axe [LVL 1]")] = ToolNum[Tools.indexOf("Axe [LVL 1]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL1] " + "x" + ToolNum[Tools.indexOf("Axe [LVL1]")])
+                        }
                     }
                 } else if (selectedIndex == 1) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Wood")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Sticks")] - 1
+                        if (true) {
+                            Tools[selectedIndex] = "Axe [LVL 2]"
+                            ToolNum[Tools.indexOf("Axe [LVL 2]")] = ToolNum[Tools.indexOf("Axe [LVL 2]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL2] " + "x" + ToolNum[Tools.indexOf("Axe [LVL2]")])
+                        }
                     }
                 } else if (selectedIndex == 2) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 1
+                        if (true) {
+                            Tools[selectedIndex] = "Axe [LVL 3]"
+                            ToolNum[Tools.indexOf("Axe [LVL 3]")] = ToolNum[Tools.indexOf("Axe [LVL 3]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL3] " + "x" + ToolNum[Tools.indexOf("Axe [LVL3]")])
+                        }
                     }
                 } else if (selectedIndex == 3) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 1
+                        if (true) {
+                            Tools[selectedIndex] = "Axe [LVL 4]"
+                            ToolNum[Tools.indexOf("Axe [LVL 4]")] = ToolNum[Tools.indexOf("Axe [LVL 4]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL 4] " + "x" + ToolNum[Tools.indexOf("Axe [LVL 4]")])
+                        }
                     }
                 } else if (selectedIndex == 4) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Diamonds")] = items[itemNames.indexOf("Diamonds")] - 1
+                        if (true) {
+                            Tools[selectedIndex] = "Axe [MAX LVL]"
+                            ToolNum[Tools.indexOf("Axe [MAX LVL]")] = ToolNum[Tools.indexOf("Axe [MAX LVL]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Axe [MAX LVL]")])
+                        }
                     }
                 } else if (selectedIndex == 5) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Wood")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 3
+                        if (true) {
+                            Tools[selectedIndex] = "Pick [LVL 1]"
+                            ToolNum[Tools.indexOf("Pick [LVL 1]")] = ToolNum[Tools.indexOf("Pick [LVL 1]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 1] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 1]")])
+                        }
                     }
                 } else if (selectedIndex == 6) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 3
+                        if (true) {
+                            Tools[selectedIndex] = "Pick [LVL 2]"
+                            ToolNum[Tools.indexOf("Pick [LVL 2]")] = ToolNum[Tools.indexOf("Pick [LVL 2]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 2] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 2]")])
+                        }
                     }
                 } else if (selectedIndex == 7) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 3
+                        if (true) {
+                            Tools[selectedIndex] = "Pick [LVL 3]"
+                            ToolNum[Tools.indexOf("Pick [LVL 3]")] = ToolNum[Tools.indexOf("Pick [LVL 3]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 3] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 3]")])
+                        }
                     }
                 } else if (selectedIndex == 8) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Diamond")] = items[itemNames.indexOf("Diamond")] - 3
+                        if (true) {
+                            Tools[selectedIndex] = "Pick [MAX LVL]"
+                            ToolNum[Tools.indexOf("Pick [MAX LVL]")] = ToolNum[Tools.indexOf("Pick [MAX LVL]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Pick [MAX LVL]")])
+                        }
                     }
                 } else if (selectedIndex == 9) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 2) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 2
+                        if (true) {
+                            Tools[selectedIndex] = "Hoe [LVL 1]"
+                            ToolNum[Tools.indexOf("Hoe [LVL 1]")] = ToolNum[Tools.indexOf("Hoe [LVL 1]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [LVL 1] " + "x" + ToolNum[Tools.indexOf("Hoe [LVL 1]")])
+                        }
                     }
                 } else if (selectedIndex == 10) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 2) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 2
+                        if (true) {
+                            Tools[selectedIndex] = "Hoe [LVL 2]"
+                            ToolNum[Tools.indexOf("Hoe [LVL 2]")] = ToolNum[Tools.indexOf("Hoe [LVL 2]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [LVL 2] " + "x" + ToolNum[Tools.indexOf("Hoe [LVL 2]")])
+                        }
                     }
                 } else if (selectedIndex == 11) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 2) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Diamonds")] = items[itemNames.indexOf("Diamonds")] - 2
+                        if (true) {
+                            Tools[selectedIndex] = "Hoe [MAX LVL]"
+                            ToolNum[Tools.indexOf("Hoe [MAX LVL]")] = ToolNum[Tools.indexOf("Hoe [MAX LVL]")] + 1
+                            ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Hoe [MAX LVL]")])
+                        }
                     }
                 } else if (selectedIndex == 12) {
-                    if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe1")] >= 1 || (items[itemNames.indexOf("Axe2")] >= 1 || items[itemNames.indexOf("Axe3")] >= 1 || (items[itemNames.indexOf("Axe4")] >= 1 || items[itemNames.indexOf("Axe5")] >= 1)))) {
+                    if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
                         items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] - 3
                     }
                 } else if (selectedIndex == 13) {
-                    if (items[itemNames.indexOf("Saplings")] >= 3 && (items[itemNames.indexOf("Axe1")] >= 1 || (items[itemNames.indexOf("Axe2")] >= 1 || items[itemNames.indexOf("Axe3")] >= 1 || (items[itemNames.indexOf("Axe4")] >= 1 || items[itemNames.indexOf("Axe5")] >= 1)))) {
+                    if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
                         items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] - 3
                     }
                 } else if (selectedIndex == 14) {
-                    if (items[itemNames.indexOf("Seeds")] >= 10 && (items[itemNames.indexOf("Hoe1")] >= 1 || (items[itemNames.indexOf("Hoe2")] >= 1 || items[itemNames.indexOf("Hoe3")] >= 1 || (items[itemNames.indexOf("Hoe4")] >= 1 || items[itemNames.indexOf("Hoe5")] >= 1)))) {
+                    if (items[itemNames.indexOf("Seeds")] >= 10 && (items[itemNames.indexOf("Hoe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Hoe [LVL 2]")] >= 1 || items[itemNames.indexOf("Hoe [MAX LVL]")] >= 1))) {
                         items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] - 10
                     }
                 } else if (selectedIndex == 15) {
