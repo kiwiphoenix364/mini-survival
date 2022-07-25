@@ -986,11 +986,11 @@ game.onUpdate(function () {
                     if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
                         myMenu.setButtonEventsEnabled(false)
                         myMenu2 = miniMenu.createMenu(
-                        miniMenu.createMenuItem(Tools[0]),
-                        miniMenu.createMenuItem(Tools[1]),
-                        miniMenu.createMenuItem(Tools[2]),
-                        miniMenu.createMenuItem(Tools[3]),
-                        miniMenu.createMenuItem(Tools[4])
+                        miniMenu.createMenuItem("" + Tools[0] + " x" + ToolNum[0]),
+                        miniMenu.createMenuItem("" + Tools[1] + " x" + ToolNum[1]),
+                        miniMenu.createMenuItem("" + Tools[2] + " x" + ToolNum[2]),
+                        miniMenu.createMenuItem("" + Tools[3] + " x" + ToolNum[3]),
+                        miniMenu.createMenuItem("" + Tools[4] + " x" + ToolNum[4])
                         )
                         if (true) {
                             myMenu2.close()
@@ -1013,11 +1013,11 @@ game.onUpdate(function () {
                     if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
                         myMenu.setButtonEventsEnabled(false)
                         myMenu2 = miniMenu.createMenu(
-                        miniMenu.createMenuItem(Tools[0]),
-                        miniMenu.createMenuItem(Tools[1]),
-                        miniMenu.createMenuItem(Tools[2]),
-                        miniMenu.createMenuItem(Tools[3]),
-                        miniMenu.createMenuItem(Tools[4])
+                        miniMenu.createMenuItem("" + Tools[0] + " x" + ToolNum[0]),
+                        miniMenu.createMenuItem("" + Tools[1] + " x" + ToolNum[1]),
+                        miniMenu.createMenuItem("" + Tools[2] + " x" + ToolNum[2]),
+                        miniMenu.createMenuItem("" + Tools[3] + " x" + ToolNum[3]),
+                        miniMenu.createMenuItem("" + Tools[4] + " x" + ToolNum[4])
                         )
                         if (true) {
                             myMenu2.close()
@@ -1064,21 +1064,21 @@ game.onUpdate(function () {
                 if (selection == "Axe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
                     Tools[0] = ToolNum[0] - 1
                 } else if (selection == "Axe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
-                    Tools[1] = ToolNum[1] - 1
+                    ToolNum[1] = ToolNum[1] - 1
                 } else if (selection == "Axe [LVL 3]" && ToolNum[selectedIndex] >= 1) {
-                    Tools[2] = ToolNum[2] - 1
+                    ToolNum[2] = ToolNum[2] - 1
                 } else if (selection == "Axe [LVL 4]" && ToolNum[selectedIndex] >= 1) {
-                    Tools[3] = ToolNum[3] - 1
+                    ToolNum[3] = ToolNum[3] - 1
                 } else if (selection == "Axe [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
-                    Tools[4] = ToolNum[4] - 1
+                    ToolNum[4] = ToolNum[4] - 1
                 }
             } else if (menuNum == 5) {
                 if (selection == "Hoe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
-                    Tools[0] = ToolNum[0] - 1
+                    ToolNum[0] = ToolNum[0] - 1
                 } else if (selection == "Hoe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
-                    Tools[1] = ToolNum[1] - 1
+                    ToolNum[1] = ToolNum[1] - 1
                 } else if (selection == "Hoe [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
-                    Tools[2] = ToolNum[2] - 1
+                    ToolNum[2] = ToolNum[2] - 1
                 }
             }
         })
