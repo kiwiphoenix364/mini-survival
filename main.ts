@@ -1069,6 +1069,13 @@ assets.tile`myTile27`,
 assets.tile`myTile28`,
 assets.tile`myTile29`
 ]
+if (blockSettings.exists("Tilemap")) {
+    for (let index = 0; index <= 99; index++) {
+        for (let index2 = 0; index2 <= 99; index2++) {
+            tiles.setTileAt(tiles.getTileLocation(index, index2), list[blockSettings.readNumberArray("Tilemap")[(index + 1) * (index2 + 1) - 1]])
+        }
+    }
+}
 game.onUpdate(function () {
     mySprite.bottom = Collision2.bottom + 1
     mySprite.x = Collision2.x
