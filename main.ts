@@ -6,28 +6,9 @@ namespace SpriteKind {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile19`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile1`)
+            tiles.setTileAt(location, assets.tile`2`)
         }
     }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
-    timer.throttle("action", 100, function () {
-        if (!(inMenu)) {
-            if (controller.A.isPressed()) {
-                if (Math.percentChance(40)) {
-                    mySprite.sayText("+1 Seeds, +1 Sticks", 500, false)
-                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
-                    items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + 1
-                } else {
-                    mySprite.sayText("+1 Seeds", 500, false)
-                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
-                }
-                tiles.setTileAt(location, assets.tile`myTile`)
-                tiles.setWallAt(location, false)
-                loadSprites()
-            }
-        }
-    })
 })
 function Reload_Tool_Menu () {
     ToolMenu.destroy()
@@ -263,42 +244,42 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile15`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile0`)
+            tiles.setTileAt(location, assets.tile`0`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile22`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile1`)
+            tiles.setTileAt(location, assets.tile`2`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile24`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile`)
+            tiles.setTileAt(location, assets.tile`1`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile0`)
+            tiles.setTileAt(location, assets.tile`0`)
         }
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (menuNum == 3) {
-        if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile3`) || (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile2`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile1`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile0`))) {
-            if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile3`)) {
+        if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`4`) || (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`3`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`2`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`1`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`0`))) {
+            if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`4`)) {
                 if (tileMem == assets.tile`myTile26` || tileMem == assets.tile`myTile27` || (tileMem == assets.tile`myTile28` || tileMem == assets.tile`myTile28`)) {
                     tiles.setTileAt(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), tileMem)
                 } else {
                     mySprite3.sayText("Can't Be Placed On")
                 }
             } else {
-                if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile3`)) {
+                if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`4`)) {
                     mySprite3.sayText("Can't Be Placed On")
                 } else {
                     tiles.setTileAt(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), tileMem)
@@ -310,7 +291,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile`)
+            tiles.setTileAt(location, assets.tile`1`)
         }
     }
 })
@@ -372,8 +353,8 @@ function loadSprites () {
                 pause(Repeat)
             }
         }
-        Repeat = tiles.getTilesByType(assets.tile`myTile4`).length / 6000
-        for (let value of tiles.getTilesByType(assets.tile`myTile4`)) {
+        Repeat = tiles.getTilesByType(assets.tile`5`).length / 6000
+        for (let value of tiles.getTilesByType(assets.tile`5`)) {
             if (value.x > mySprite.x - 120 && value.x < mySprite.x + 120 && (value.y < mySprite.y + 100 && value.y > mySprite.y - 100)) {
                 Obj = sprites.create(img`
                     . . . . . . . . . . . . . . . . 
@@ -401,8 +382,8 @@ function loadSprites () {
                 pause(Repeat)
             }
         }
-        Repeat = tiles.getTilesByType(assets.tile`myTile6`).length / 6000
-        for (let value of tiles.getTilesByType(assets.tile`myTile6`)) {
+        Repeat = tiles.getTilesByType(assets.tile`6`).length / 6000
+        for (let value of tiles.getTilesByType(assets.tile`6`)) {
             if (value.x > mySprite.x - 120 && value.x < mySprite.x + 120 && (value.y < mySprite.y + 100 && value.y > mySprite.y - 100)) {
                 Obj = sprites.create(img`
                     ......77777.....
@@ -443,7 +424,7 @@ function loadSprites () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile25`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile`)
+            tiles.setTileAt(location, assets.tile`1`)
         }
     }
 })
@@ -457,21 +438,21 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile12`, function (sprite, 
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile9`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile`)
+            tiles.setTileAt(location, assets.tile`1`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile1`)
+            tiles.setTileAt(location, assets.tile`2`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile29`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile3`)
+            tiles.setTileAt(location, assets.tile`4`)
         }
     }
 })
@@ -483,7 +464,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile5`, function (sprite, l
                     mySprite.sayText("+1 Wood, +1 Sapling", 500, false)
                     items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + 1
                     items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + 1
-                    tiles.setTileAt(location, assets.tile`myTile1`)
+                    tiles.setTileAt(location, assets.tile`2`)
                     tiles.setWallAt(location, false)
                     loadSprites()
                 } else {
@@ -496,45 +477,28 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile5`, function (sprite, l
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile21`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile1`)
+            tiles.setTileAt(location, assets.tile`2`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile16`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile0`)
+            tiles.setTileAt(location, assets.tile`0`)
         }
     }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
-    timer.throttle("action", 250, function () {
-        if (!(inMenu)) {
-            if (controller.A.isPressed()) {
-                if (ToolNum[Tools.indexOf("Axe [LVL 1]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 2]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 3]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 4]")] > 0 || ToolNum[Tools.indexOf("Axe [MAX LVL]")] > 0)))) {
-                    mySprite.sayText("+1 Wood", 500, false)
-                    items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] + 1
-                    tiles.setTileAt(location, assets.tile`myTile0`)
-                    tiles.setWallAt(location, false)
-                    loadSprites()
-                } else {
-                    mySprite.sayText("Axe Needed", 500, false)
-                }
-            }
-        }
-    })
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile20`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile1`)
+            tiles.setTileAt(location, assets.tile`2`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile0`)
+            tiles.setTileAt(location, assets.tile`0`)
         }
     }
 })
@@ -548,6 +512,23 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile8`, function (sprite, l
         items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(0, 3)
         items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(0, 10)
     }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`6`, function (sprite, location) {
+    timer.throttle("action", 250, function () {
+        if (!(inMenu)) {
+            if (controller.A.isPressed()) {
+                if (ToolNum[Tools.indexOf("Axe [LVL 1]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 2]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 3]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 4]")] > 0 || ToolNum[Tools.indexOf("Axe [MAX LVL]")] > 0)))) {
+                    mySprite.sayText("+1 Wood", 500, false)
+                    items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] + 1
+                    tiles.setTileAt(location, assets.tile`0`)
+                    tiles.setWallAt(location, false)
+                    loadSprites()
+                } else {
+                    mySprite.sayText("Axe Needed", 500, false)
+                }
+            }
+        }
+    })
 })
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     if (!(inMenu)) {
@@ -801,46 +782,69 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite, 
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile27`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile3`)
+            tiles.setTileAt(location, assets.tile`4`)
         }
     }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`5`, function (sprite, location) {
+    timer.throttle("action", 100, function () {
+        if (!(inMenu)) {
+            if (controller.A.isPressed()) {
+                if (Math.percentChance(40)) {
+                    mySprite.sayText("+1 Seeds, +1 Sticks", 500, false)
+                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
+                    items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + 1
+                } else {
+                    mySprite.sayText("+1 Seeds", 500, false)
+                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
+                }
+                tiles.setTileAt(location, assets.tile`1`)
+                tiles.setWallAt(location, false)
+                loadSprites()
+            }
+        }
+    })
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile23`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile`)
+            tiles.setTileAt(location, assets.tile`1`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile14`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile0`)
+            tiles.setTileAt(location, assets.tile`0`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile`)
+            tiles.setTileAt(location, assets.tile`1`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile26`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile3`)
+            tiles.setTileAt(location, assets.tile`4`)
         }
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile28`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`myTile3`)
+            tiles.setTileAt(location, assets.tile`4`)
         }
     }
 })
+let savedTilemap: number[] = []
 let Randomized = 0
+let textSprite: TextSprite = null
+let enemyStats = 0
+let myStats = 0
 let myMenu2: miniMenu.MenuSprite = null
 let Smoke2: Sprite = null
 let arrowSprite2: Sprite = null
@@ -861,7 +865,6 @@ let ToolMenu: miniMenu.MenuSprite = null
 let ToolList: miniMenu.MenuItem[] = []
 let Tools: string[] = []
 let ToolNum: number[] = []
-stats.turnStats(true)
 ToolNum = [
 0,
 0,
@@ -990,10 +993,10 @@ Collision2.setFlag(SpriteFlag.Invisible, true)
 scene.cameraFollowSprite(mySprite)
 tiles.setCurrentTilemap(tilemap`level1`)
 let list = [
-assets.tile`myTile`,
-assets.tile`myTile0`,
-assets.tile`myTile1`,
-assets.tile`myTile2`
+assets.tile`1`,
+assets.tile`0`,
+assets.tile`2`,
+assets.tile`3`
 ]
 for (let index = 0; index <= 99; index++) {
     for (let index2 = 0; index2 <= 99; index2++) {
@@ -1003,7 +1006,7 @@ for (let index = 0; index <= 99; index++) {
         } else if (RandomNum > 99 && RandomNum <= 198 && !(index2 == 0)) {
             tiles.setTileAt(tiles.getTileLocation(index, index2), tiles.tileImageAtLocation(tiles.getTileLocation(index, index2).getNeighboringLocation(CollisionDirection.Top)))
         } else {
-            if (assets.tile`myTile1` != tiles.tileImageAtLocation(tiles.getTileLocation(index, index2).getNeighboringLocation(CollisionDirection.Left)) && assets.tile`myTile1` != tiles.tileImageAtLocation(tiles.getTileLocation(index, index2).getNeighboringLocation(CollisionDirection.Top)) && (assets.tile`myTile2` != tiles.tileImageAtLocation(tiles.getTileLocation(index, index2).getNeighboringLocation(CollisionDirection.Left)) && assets.tile`myTile2` != tiles.tileImageAtLocation(tiles.getTileLocation(index, index2).getNeighboringLocation(CollisionDirection.Top)))) {
+            if (assets.tile`2` != tiles.tileImageAtLocation(tiles.getTileLocation(index, index2).getNeighboringLocation(CollisionDirection.Left)) && assets.tile`2` != tiles.tileImageAtLocation(tiles.getTileLocation(index, index2).getNeighboringLocation(CollisionDirection.Top)) && (assets.tile`3` != tiles.tileImageAtLocation(tiles.getTileLocation(index, index2).getNeighboringLocation(CollisionDirection.Left)) && assets.tile`3` != tiles.tileImageAtLocation(tiles.getTileLocation(index, index2).getNeighboringLocation(CollisionDirection.Top)))) {
                 tiles.setTileAt(tiles.getTileLocation(index, index2), list[randint(0, 3)])
             } else {
                 tiles.setTileAt(tiles.getTileLocation(index, index2), list[randint(0, 1)])
@@ -1011,35 +1014,68 @@ for (let index = 0; index <= 99; index++) {
         }
     }
 }
-for (let value4 of tiles.getTilesByType(assets.tile`myTile1`)) {
+for (let value4 of tiles.getTilesByType(assets.tile`2`)) {
     if (Math.percentChance(5)) {
         tiles.setTileAt(value4, assets.tile`myTile5`)
         tiles.setWallAt(value4, true)
     }
 }
-for (let value22 of tiles.getTilesByType(assets.tile`myTile`)) {
+for (let value22 of tiles.getTilesByType(assets.tile`1`)) {
     if (Math.percentChance(5)) {
-        tiles.setTileAt(value22, assets.tile`myTile4`)
+        tiles.setTileAt(value22, assets.tile`5`)
     }
 }
-for (let value32 of tiles.getTilesByType(assets.tile`myTile0`)) {
+for (let value32 of tiles.getTilesByType(assets.tile`0`)) {
     if (Math.percentChance(5)) {
-        tiles.setTileAt(value32, assets.tile`myTile6`)
+        tiles.setTileAt(value32, assets.tile`6`)
         tiles.setWallAt(value32, true)
     }
 }
-for (let value42 of tiles.getTilesByType(assets.tile`myTile2`)) {
+for (let value42 of tiles.getTilesByType(assets.tile`3`)) {
     if (Math.percentChance(3)) {
-        tiles.setTileAt(value42, assets.tile`myTile3`)
+        tiles.setTileAt(value42, assets.tile`4`)
     }
 }
+list = [
+assets.tile`1`,
+assets.tile`0`,
+assets.tile`2`,
+assets.tile`3`,
+assets.tile`4`,
+assets.tile`5`,
+assets.tile`myTile5`,
+assets.tile`6`,
+assets.tile`myTile7`,
+assets.tile`myTile8`,
+assets.tile`myTile9`,
+assets.tile`myTile10`,
+assets.tile`myTile11`,
+assets.tile`myTile12`,
+assets.tile`myTile13`,
+assets.tile`myTile14`,
+assets.tile`myTile15`,
+assets.tile`myTile16`,
+assets.tile`myTile17`,
+assets.tile`myTile18`,
+assets.tile`myTile19`,
+assets.tile`myTile20`,
+assets.tile`myTile21`,
+assets.tile`myTile22`,
+assets.tile`myTile23`,
+assets.tile`myTile24`,
+assets.tile`myTile25`,
+assets.tile`myTile26`,
+assets.tile`myTile27`,
+assets.tile`myTile28`,
+assets.tile`myTile29`
+]
 game.onUpdate(function () {
     mySprite.bottom = Collision2.bottom + 1
     mySprite.x = Collision2.x
     mySprite.z = Collision2.bottom
 })
 game.onUpdate(function () {
-    for (let value5 of tiles.getTilesByType(assets.tile`myTile3`)) {
+    for (let value5 of tiles.getTilesByType(assets.tile`4`)) {
         if (Math.percentChance(1)) {
             if (Math.abs(value5.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value5.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
                 Smoke2 = sprites.create(img`
@@ -1384,10 +1420,39 @@ game.onUpdate(function () {
     }
 })
 game.onUpdateInterval(5000, function () {
-    if (Math.percentChance(1) && tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length > 0) {
-        for (let index = 0; index < 3; index++) {
-            Randomized = randint(0, 9)
-            items[Randomized] = items[Randomized] - randint(0, Math.max(items[Randomized], 10))
+    if (Math.percentChance(1) && tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length * 2 > 0) {
+        myStats = tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length * 2
+        enemyStats = (tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length * 1.8) * randint(0.5, 1.5)
+        for (let index = 0; index < 100; index++) {
+            enemyStats += 0 - myStats / randint(50, 150)
+            myStats += 0 - enemyStats / randint(50, 150)
+        }
+        if (myStats > enemyStats) {
+            items[3] = items[3] - randint(10, 20)
+            items[4] = items[4] - randint(1, 5)
+            textSprite = textsprite.create("An attack from an enemy has been defended.")
+            textSprite.top = 32
+            textSprite.left = 1
+            textSprite = textsprite.create("Gained Iron and diamond(s)")
+            textSprite.top = 64
+            textSprite.left = 1
+            timer.after(500, function () {
+                sprites.destroyAllSpritesOfKind(SpriteKind.Text)
+            })
+        } else {
+            for (let index = 0; index < 3; index++) {
+                Randomized = randint(0, 9)
+                items[Randomized] = items[Randomized] - randint(0, Math.max(items[Randomized], 10))
+            }
+            textSprite = textsprite.create("An attack from an enemy has not been defended.")
+            textSprite.top = 32
+            textSprite.left = 1
+            textSprite = textsprite.create("Lost some materials")
+            textSprite.top = 64
+            textSprite.left = 1
+            timer.after(500, function () {
+                sprites.destroyAllSpritesOfKind(SpriteKind.Text)
+            })
         }
     }
 })
@@ -1525,4 +1590,11 @@ game.onUpdateInterval(18750, function () {
             items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(21, 30)
         }
     }
+    savedTilemap = []
+    for (let index = 0; index <= 99; index++) {
+        for (let index2 = 0; index2 <= 99; index2++) {
+            savedTilemap.push(list.indexOf(tiles.tileImageAtLocation(tiles.getTileLocation(index, index2))))
+        }
+    }
+    blockSettings.writeNumberArray("Tilemap", savedTilemap)
 })
