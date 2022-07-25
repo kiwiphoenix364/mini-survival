@@ -703,7 +703,7 @@ let ToolNum = [
 let Tools: string[] = []
 ToolList = [miniMenu.createMenuItem("[NONE]")]
 ToolMenu = miniMenu.createMenu(
-miniMenu.createMenuItem("[None]")
+miniMenu.createMenuItem("[NONE]")
 )
 ToolMenu.setButtonEventsEnabled(false)
 ToolMenu.setFlag(SpriteFlag.RelativeToCamera, true)
