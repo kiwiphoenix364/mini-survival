@@ -8,7 +8,8 @@
         "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
         "arcade-character-animations": "github:microsoft/arcade-character-animations#v0.0.2",
         "arcade-mini-menu": "github:riknoll/arcade-mini-menu#10013ca1dcba54156faf7f4fefff9bc8db24ff26",
-        "Stats": "github:UnsignedArduino/Stats#9102333e1ca6cbaf8a979ceb252274b2f09b9005"
+        "Stats": "github:UnsignedArduino/Stats#9102333e1ca6cbaf8a979ceb252274b2f09b9005",
+        "arcade-text": "github:aqeeaqee/arcade-text#v1.4.1"
     },
     "files": [
         "main.blocks",

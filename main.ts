@@ -3,11 +3,26 @@ namespace SpriteKind {
     export const Collision = SpriteKind.create()
     export const Smoke = SpriteKind.create()
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
-    timer.throttle("action", 250, function () {
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile19`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile1`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
+    timer.throttle("action", 100, function () {
         if (!(inMenu)) {
             if (controller.A.isPressed()) {
-                tiles.setTileAt(location, assets.tile`myTile0`)
+                if (Math.percentChance(40)) {
+                    mySprite.sayText("+1 Seeds, +1 Sticks", 500, false)
+                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
+                    items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + 1
+                } else {
+                    mySprite.sayText("+1 Seeds", 500, false)
+                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
+                }
+                tiles.setTileAt(location, assets.tile`myTile`)
                 tiles.setWallAt(location, false)
                 loadSprites()
             }
@@ -19,7 +34,7 @@ function Reload_Tool_Menu () {
     ToolMenu = miniMenu.createMenuFromArray(ToolList)
     ToolMenu.setButtonEventsEnabled(false)
     ToolMenu.setFlag(SpriteFlag.RelativeToCamera, true)
-    ToolMenu.setTitle("Tools")
+    ToolMenu.setTitle("Tools [Hold B]")
     ToolMenu.z = 998
     ToolMenu.top = 1
     ToolMenu.left = 1
@@ -27,38 +42,10 @@ function Reload_Tool_Menu () {
     ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 24)
     ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
 }
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(inMenu)) {
-        controller.moveSprite(Collision2, 0, 0)
-        ToolMenu.setButtonEventsEnabled(true)
-        Reload_Tool_Menu()
-    }
-})
 controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
     if (controller.right.isPressed() && inMenu && menuNum == 1) {
-        myMenu.close()
-        myMenu = miniMenu.createMenu(
-        miniMenu.createMenuItem("Houses " + "x" + items[itemNames.indexOf("Houses")]),
-        miniMenu.createMenuItem("Mines " + "x" + items[itemNames.indexOf("Mines")]),
-        miniMenu.createMenuItem("Weaponsmiths " + "x" + items[itemNames.indexOf("Weaponsmiths")]),
-        miniMenu.createMenuItem("Soldiers " + "x" + items[itemNames.indexOf("Soldiers")]),
-        miniMenu.createMenuItem("Tree Farms " + "x" + items[itemNames.indexOf("Tree Farms")]),
-        miniMenu.createMenuItem("Cactus Farms " + "x" + items[itemNames.indexOf("Cactus Farms")]),
-        miniMenu.createMenuItem("Farmers" + "x" + items[itemNames.indexOf("Farmers")])
-        )
-        myMenu.z = 1000
-        myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
-        myMenu.setTitle("Placeable Resources")
-        arrowSprite.setFlag(SpriteFlag.Invisible, true)
-        menuNum = 2
-        myMenu.top = 1
-        myMenu.left = 11
-    } else if (controller.left.isPressed() && inMenu && menuNum == 2 || controller.right.isPressed() && inMenu && menuNum == 3) {
+    	
+    } else if (controller.left.isPressed() && inMenu && menuNum == 2 || controller.right.isPressed() && inMenu && menuNum == 2) {
         myMenu.close()
         myMenu = miniMenu.createMenu(
         miniMenu.createMenuItem("Seeds " + "x" + items[itemNames.indexOf("Seeds")], img`
@@ -226,13 +213,13 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
         )
         myMenu.z = 1000
         myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 138)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
         myMenu.setTitle("Inventory")
-        arrowSprite.setFlag(SpriteFlag.Invisible, false)
+        arrowSprite.setFlag(SpriteFlag.Invisible, true)
         menuNum = 1
         myMenu.top = 1
         myMenu.left = 11
@@ -254,9 +241,11 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
         miniMenu.createMenuItem("3x Cactus + 1 Axe = Cactus Farm [AXE LVL]"),
         miniMenu.createMenuItem("3x Saplings + 1 Axe = Tree Farm [AXE LVL]"),
         miniMenu.createMenuItem("10x Seeds + 1 Hoe = Wheat Farm [HOE LVL]"),
-        miniMenu.createMenuItem("10x Wood + 4x Iron = House + Hired Farmer"),
+        miniMenu.createMenuItem("3x Wood + 1 Pick = Mine"),
+        miniMenu.createMenuItem("10x Wood + 4x Iron = House + Hired Wheat Farmer (Place house next to a Wheat Farm to auto-collect wheat)"),
         miniMenu.createMenuItem("10x Wood + 4x Iron + 2 Sticks + 4 Materials = House + Hired Soldier [LVL MATERIAL]")
         ])
+        arrowSprite.setFlag(SpriteFlag.Invisible, false)
         myMenu.z = 1000
         myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
@@ -266,29 +255,64 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
         myMenu.setTitle("Crafts")
         arrowSprite.setFlag(SpriteFlag.Invisible, false)
-        menuNum = 3
+        menuNum = 2
         myMenu.top = 1
         myMenu.left = 1
     }
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
-    timer.throttle("action", 100, function () {
-        if (!(inMenu)) {
-            if (controller.A.isPressed()) {
-                if (Math.percentChance(20)) {
-                    mySprite.sayText("+1 Seeds, +1 Sticks", 500, false)
-                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
-                    items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + 1
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile15`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile0`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile22`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile1`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile24`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile0`)
+        }
+    }
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (menuNum == 3) {
+        if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile3`) || (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile2`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile1`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile0`))) {
+            if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile3`)) {
+                if (tileMem == assets.tile`myTile26` || tileMem == assets.tile`myTile27` || (tileMem == assets.tile`myTile28` || tileMem == assets.tile`myTile28`)) {
+                    tiles.setTileAt(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), tileMem)
                 } else {
-                    mySprite.sayText("+1 Seeds", 500, false)
-                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
+                    mySprite3.sayText("Can't Be Placed On")
                 }
-                tiles.setTileAt(location, assets.tile`myTile`)
-                tiles.setWallAt(location, false)
-                loadSprites()
+            } else {
+                if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`myTile3`)) {
+                    mySprite3.sayText("Can't Be Placed On")
+                } else {
+                    tiles.setTileAt(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), tileMem)
+                }
             }
         }
-    })
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile`)
+        }
+    }
 })
 function loadSprites () {
     timer.background(function () {
@@ -416,16 +440,114 @@ function loadSprites () {
         }
     })
 }
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile25`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile12`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        tiles.setTileAt(location, assets.tile`myTile11`)
+        items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(6, 10)
+        items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(21, 30)
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile9`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile1`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile29`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile3`)
+        }
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile5`, function (sprite, location) {
     timer.throttle("action", 500, function () {
         if (!(inMenu)) {
             if (controller.A.isPressed()) {
-                tiles.setTileAt(location, assets.tile`myTile1`)
-                tiles.setWallAt(location, false)
-                loadSprites()
+                if (ToolNum[Tools.indexOf("Axe [LVL 1]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 2]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 3]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 4]")] > 0 || ToolNum[Tools.indexOf("Axe [MAX LVL]")] > 0)))) {
+                    mySprite.sayText("+1 Wood, +1 Sapling", 500, false)
+                    items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + 1
+                    items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + 1
+                    tiles.setTileAt(location, assets.tile`myTile1`)
+                    tiles.setWallAt(location, false)
+                    loadSprites()
+                } else {
+                    mySprite.sayText("Axe needed", 500, false)
+                }
             }
         }
     })
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile21`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile1`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile16`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile0`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
+    timer.throttle("action", 250, function () {
+        if (!(inMenu)) {
+            if (controller.A.isPressed()) {
+                if (ToolNum[Tools.indexOf("Axe [LVL 1]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 2]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 3]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 4]")] > 0 || ToolNum[Tools.indexOf("Axe [MAX LVL]")] > 0)))) {
+                    mySprite.sayText("+1 Wood", 500, false)
+                    items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] + 1
+                    tiles.setTileAt(location, assets.tile`myTile0`)
+                    tiles.setWallAt(location, false)
+                    loadSprites()
+                } else {
+                    mySprite.sayText("Axe Needed", 500, false)
+                }
+            }
+        }
+    })
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile20`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile1`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile0`)
+        }
+    }
+})
+controller.B.onEvent(ControllerButtonEvent.Released, function () {
+    controller.moveSprite(Collision2)
+    ToolMenu.setButtonEventsEnabled(false)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile8`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        tiles.setTileAt(location, assets.tile`myTile7`)
+        items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(0, 3)
+        items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(0, 10)
+    }
 })
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     if (!(inMenu)) {
@@ -599,7 +721,7 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         myMenu.setFlag(SpriteFlag.RelativeToCamera, true)
         myMenu.top = 1
         myMenu.left = 11
-        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 138)
+        myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 148)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
         myMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
@@ -623,6 +745,7 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
             f . . . . . . . 
             . . . . . . . . 
             `, SpriteKind.Player)
+        arrowSprite.setFlag(SpriteFlag.Invisible, true)
         arrowSprite.setFlag(SpriteFlag.Ghost, true)
         arrowSprite.setFlag(SpriteFlag.RelativeToCamera, true)
         arrowSprite.right = 158
@@ -661,15 +784,70 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         menuNum = 0
     }
 })
-controller.B.onEvent(ControllerButtonEvent.Released, function () {
-    controller.moveSprite(Collision2)
-    ToolMenu.setButtonEventsEnabled(false)
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (!(inMenu)) {
+        controller.moveSprite(Collision2, 0, 0)
+        ToolMenu.setButtonEventsEnabled(true)
+        Reload_Tool_Menu()
+    }
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        tiles.setTileAt(location, assets.tile`myTile9`)
+        items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(2, 5)
+        items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(11, 20)
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile27`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile3`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile23`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile14`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile0`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile26`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile3`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile28`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`myTile3`)
+        }
+    }
+})
+let Randomized = 0
 let myMenu2: miniMenu.MenuSprite = null
 let Smoke2: Sprite = null
 let arrowSprite2: Sprite = null
 let Obj: Sprite = null
 let Repeat = 0
+let tileMem: Image = null
+let mySprite3: Sprite = null
 let arrowSprite: Sprite = null
 let myMenu: miniMenu.MenuSprite = null
 let menuNum = 0
@@ -681,8 +859,11 @@ let itemNames: string[] = []
 let items: number[] = []
 let ToolMenu: miniMenu.MenuSprite = null
 let ToolList: miniMenu.MenuItem[] = []
+let Tools: string[] = []
+let ToolNum: number[] = []
 stats.turnStats(true)
-let ToolNum = [
+ToolNum = [
+0,
 0,
 0,
 0,
@@ -701,14 +882,30 @@ let ToolNum = [
 0,
 0
 ]
-let Tools = [""]
+Tools = [
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+""
+]
 ToolList = [miniMenu.createMenuItem("[NONE]")]
 ToolMenu = miniMenu.createMenu(
 miniMenu.createMenuItem("[NONE]")
 )
 ToolMenu.setButtonEventsEnabled(false)
 ToolMenu.setFlag(SpriteFlag.RelativeToCamera, true)
-ToolMenu.setTitle("Tools")
+ToolMenu.setTitle("Tools [Hold B]")
 ToolMenu.z = 998
 ToolMenu.top = 1
 ToolMenu.left = 1
@@ -716,6 +913,7 @@ ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 64)
 ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 24)
 ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
 items = [
+0,
 0,
 0,
 0,
@@ -738,16 +936,10 @@ itemNames = [
 "Cactus",
 "Iron",
 "Diamonds",
-"Houses",
-"Mines",
-"Weaponsmiths",
-"Soldiers",
-"Tree Farms",
-"Cactus Farms",
 "Seeds",
 "Saplings",
 "Sticks",
-"Farmers"
+"Wheat"
 ]
 color.setColor(10, color.rgb(50, 200, 50))
 let mySprite2 = sprites.create(img`
@@ -847,12 +1039,6 @@ game.onUpdate(function () {
     mySprite.z = Collision2.bottom
 })
 game.onUpdate(function () {
-	
-})
-game.onUpdate(function () {
-	
-})
-game.onUpdate(function () {
     for (let value5 of tiles.getTilesByType(assets.tile`myTile3`)) {
         if (Math.percentChance(1)) {
             if (Math.abs(value5.x - scene.cameraProperty(CameraProperty.X)) + Math.abs(value5.y - scene.cameraProperty(CameraProperty.Y)) <= 200) {
@@ -886,101 +1072,101 @@ game.onUpdate(function () {
 game.onUpdate(function () {
     if (inMenu) {
         myMenu.onButtonPressed(controller.A, function (selection, selectedIndex) {
-            if (menuNum == 3) {
+            if (menuNum == 2) {
                 if (selectedIndex == 0) {
                     if (items[itemNames.indexOf("Sticks")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 3
                         Tools[selectedIndex] = "Axe [LVL 1]"
-                        ToolNum[Tools.indexOf("Axe [LVL 1]")] = ToolNum[Tools.indexOf("Axe [LVL 1]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL1] " + "x" + ToolNum[Tools.indexOf("Axe [LVL1]")])
+                        ToolNum[0] = ToolNum[0] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL1] " + "x" + ToolNum[0])
                     }
                 } else if (selectedIndex == 1) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Wood")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Sticks")] - 1
                         Tools[selectedIndex] = "Axe [LVL 2]"
-                        ToolNum[Tools.indexOf("Axe [LVL 2]")] = ToolNum[Tools.indexOf("Axe [LVL 2]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL2] " + "x" + ToolNum[Tools.indexOf("Axe [LVL2]")])
+                        ToolNum[1] = ToolNum[1] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL2] " + "x" + ToolNum[1])
                     }
                 } else if (selectedIndex == 2) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 1
                         Tools[selectedIndex] = "Axe [LVL 3]"
-                        ToolNum[Tools.indexOf("Axe [LVL 3]")] = ToolNum[Tools.indexOf("Axe [LVL 3]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL3] " + "x" + ToolNum[Tools.indexOf("Axe [LVL3]")])
+                        ToolNum[2] = ToolNum[2] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL3] " + "x" + ToolNum[2])
                     }
                 } else if (selectedIndex == 3) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 1
                         Tools[selectedIndex] = "Axe [LVL 4]"
-                        ToolNum[Tools.indexOf("Axe [LVL 4]")] = ToolNum[Tools.indexOf("Axe [LVL 4]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL 4] " + "x" + ToolNum[Tools.indexOf("Axe [LVL 4]")])
+                        ToolNum[3] = ToolNum[3] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL 4] " + "x" + ToolNum[3])
                     }
                 } else if (selectedIndex == 4) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Diamonds")] = items[itemNames.indexOf("Diamonds")] - 1
                         Tools[selectedIndex] = "Axe [MAX LVL]"
-                        ToolNum[Tools.indexOf("Axe [MAX LVL]")] = ToolNum[Tools.indexOf("Axe [MAX LVL]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Axe [MAX LVL]")])
+                        ToolNum[4] = ToolNum[4] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [MAX LVL] " + "x" + ToolNum[4])
                     }
                 } else if (selectedIndex == 5) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Wood")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 3
                         Tools[selectedIndex] = "Pick [LVL 1]"
-                        ToolNum[Tools.indexOf("Pick [LVL 1]")] = ToolNum[Tools.indexOf("Pick [LVL 1]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 1] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 1]")])
+                        ToolNum[5] = ToolNum[5] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 1] " + "x" + ToolNum[5])
                     }
                 } else if (selectedIndex == 6) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 3
                         Tools[selectedIndex] = "Pick [LVL 2]"
-                        ToolNum[Tools.indexOf("Pick [LVL 2]")] = ToolNum[Tools.indexOf("Pick [LVL 2]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 2] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 2]")])
+                        ToolNum[6] = ToolNum[6] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 2] " + "x" + ToolNum[6])
                     }
                 } else if (selectedIndex == 7) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 3
                         Tools[selectedIndex] = "Pick [LVL 3]"
-                        ToolNum[Tools.indexOf("Pick [LVL 3]")] = ToolNum[Tools.indexOf("Pick [LVL 3]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 3] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 3]")])
+                        ToolNum[7] = ToolNum[7] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 3] " + "x" + ToolNum[7])
                     }
                 } else if (selectedIndex == 8) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Diamond")] = items[itemNames.indexOf("Diamond")] - 3
                         Tools[selectedIndex] = "Pick [MAX LVL]"
-                        ToolNum[Tools.indexOf("Pick [MAX LVL]")] = ToolNum[Tools.indexOf("Pick [MAX LVL]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Pick [MAX LVL]")])
+                        ToolNum[8] = ToolNum[8] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [MAX LVL] " + "x" + ToolNum[8])
                     }
                 } else if (selectedIndex == 9) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 2) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 2
                         Tools[selectedIndex] = "Hoe [LVL 1]"
-                        ToolNum[Tools.indexOf("Hoe [LVL 1]")] = ToolNum[Tools.indexOf("Hoe [LVL 1]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [LVL 1] " + "x" + ToolNum[Tools.indexOf("Hoe [LVL 1]")])
+                        ToolNum[9] = ToolNum[9] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [LVL 1] " + "x" + ToolNum[9])
                     }
                 } else if (selectedIndex == 10) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 2) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 2
                         Tools[selectedIndex] = "Hoe [LVL 2]"
-                        ToolNum[Tools.indexOf("Hoe [LVL 2]")] = ToolNum[Tools.indexOf("Hoe [LVL 2]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [LVL 2] " + "x" + ToolNum[Tools.indexOf("Hoe [LVL 2]")])
+                        ToolNum[10] = ToolNum[10] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [LVL 2] " + "x" + ToolNum[10])
                     }
                 } else if (selectedIndex == 11) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 2) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Diamonds")] = items[itemNames.indexOf("Diamonds")] - 2
                         Tools[selectedIndex] = "Hoe [MAX LVL]"
-                        ToolNum[Tools.indexOf("Hoe [MAX LVL]")] = ToolNum[Tools.indexOf("Hoe [MAX LVL]")] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Hoe [MAX LVL]")])
+                        ToolNum[11] = ToolNum[11] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [MAX LVL] " + "x" + ToolNum[11])
                     }
                 } else if (selectedIndex == 12) {
                     if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
@@ -992,25 +1178,20 @@ game.onUpdate(function () {
                         miniMenu.createMenuItem("" + Tools[3] + " x" + ToolNum[3]),
                         miniMenu.createMenuItem("" + Tools[4] + " x" + ToolNum[4])
                         )
-                        if (true) {
-                            myMenu2.close()
-                            myMenu2.z = 1000
-                            myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
-                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 158)
-                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
-                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
-                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
-                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
-                            myMenu2.setTitle("Select Axe Type")
-                            menuNum = 4
-                            myMenu.top = 1
-                            myMenu.left = 1
-                        }
-                        items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] - 3
-                        items[itemNames.indexOf("Cactus Farm")] = items[itemNames.indexOf("Cactus Farm")] - 10
+                        myMenu2.z = 1000
+                        myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 158)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+                        myMenu2.setTitle("Select Axe Type")
+                        menuNum = 7
+                        myMenu.top = 1
+                        myMenu.left = 1
                     }
                 } else if (selectedIndex == 13) {
-                    if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
+                    if (items[itemNames.indexOf("Sapling")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
                         myMenu.setButtonEventsEnabled(false)
                         myMenu2 = miniMenu.createMenu(
                         miniMenu.createMenuItem("" + Tools[0] + " x" + ToolNum[0]),
@@ -1019,80 +1200,196 @@ game.onUpdate(function () {
                         miniMenu.createMenuItem("" + Tools[3] + " x" + ToolNum[3]),
                         miniMenu.createMenuItem("" + Tools[4] + " x" + ToolNum[4])
                         )
-                        if (true) {
-                            myMenu2.close()
-                            myMenu2.z = 1000
-                            myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
-                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 158)
-                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
-                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
-                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
-                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
-                            myMenu2.setTitle("Select Axe Type")
-                            menuNum = 4
-                            myMenu.top = 1
-                            myMenu.left = 1
-                        }
-                        items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] - 3
-                        items[itemNames.indexOf("Tree Farm")] = items[itemNames.indexOf("Tree Farm")] - 10
+                        myMenu2.z = 1000
+                        myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 158)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+                        myMenu2.setTitle("Select Axe Type")
+                        menuNum = 4
+                        myMenu.top = 1
+                        myMenu.left = 1
                     }
                 } else if (selectedIndex == 14) {
                     if (items[itemNames.indexOf("Seeds")] >= 10 && (items[itemNames.indexOf("Hoe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Hoe [LVL 2]")] >= 1 || items[itemNames.indexOf("Hoe [MAX LVL]")] >= 1))) {
                         myMenu.setButtonEventsEnabled(false)
                         myMenu2 = miniMenu.createMenu(
-                        miniMenu.createMenuItem("Hoe [LVL 1]"),
-                        miniMenu.createMenuItem("Hoe [LVL 2]"),
-                        miniMenu.createMenuItem("Hoe [MAX LVL]")
+                        miniMenu.createMenuItem("" + Tools[9] + " x" + ToolNum[9]),
+                        miniMenu.createMenuItem("" + Tools[10] + " x" + ToolNum[10]),
+                        miniMenu.createMenuItem("" + Tools[11] + " x" + ToolNum[11])
                         )
-                        items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] - 10
-                        items[itemNames.indexOf("Wheat Farm")] = items[itemNames.indexOf("Wheat Farm")] - 10
+                        myMenu2.z = 1000
+                        myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 158)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+                        myMenu2.setTitle("Select Hoe Type")
+                        menuNum = 5
+                        myMenu.top = 1
+                        myMenu.left = 1
                     }
                 } else if (selectedIndex == 15) {
+                    if (items[itemNames.indexOf("Wood")] >= 3 && (items[itemNames.indexOf("Pick [LVL 1]")] >= 1 || (items[itemNames.indexOf("Pick [LVL 2]")] >= 1 || (items[itemNames.indexOf("Pick [LVL 3]")] >= 1 || items[itemNames.indexOf("Pick [MAX LVL]")] >= 1)))) {
+                        myMenu.setButtonEventsEnabled(false)
+                        myMenu2 = miniMenu.createMenu(
+                        miniMenu.createMenuItem("" + Tools[5] + " x" + ToolNum[5]),
+                        miniMenu.createMenuItem("" + Tools[6] + " x" + ToolNum[6]),
+                        miniMenu.createMenuItem("" + Tools[7] + " x" + ToolNum[7]),
+                        miniMenu.createMenuItem("" + Tools[3] + " x" + ToolNum[8])
+                        )
+                        myMenu2.z = 1000
+                        myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 158)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+                        myMenu2.setTitle("Select Pick Type")
+                        menuNum = 6
+                        myMenu.top = 1
+                        myMenu.left = 1
+                    }
+                } else if (selectedIndex == 16) {
                     if (items[itemNames.indexOf("Wood")] >= 10 && items[itemNames.indexOf("Iron")] >= 4) {
                         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 10
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 4
                     }
-                } else if (selectedIndex == 16) {
+                } else if (selectedIndex == 17) {
                     if (items[itemNames.indexOf("Wood")] >= 10 && items[itemNames.indexOf("Iron")] >= 4 && (items[itemNames.indexOf("Sticks")] >= 2 && (items[itemNames.indexOf("Iron")] >= 2 || items[itemNames.indexOf("Diamonds")] >= 2))) {
                         myMenu.setButtonEventsEnabled(false)
-                        items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 10
-                        items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 4
-                        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                        myMenu2 = miniMenu.createMenu(
+                        miniMenu.createMenuItem("" + itemNames[7] + " x" + items[7]),
+                        miniMenu.createMenuItem("" + itemNames[8] + " x" + items[8])
+                        )
+                        myMenu2.z = 1000
+                        myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 158)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+                        myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+                        myMenu2.setTitle("Select Material")
+                        menuNum = 8
+                        myMenu.top = 1
+                        myMenu.left = 1
                     }
+                } else {
+                	
                 }
+                myMenu.close()
+                arrowSprite.destroy()
+                arrowSprite2.destroy()
+                menuNum = 0
             } else if (menuNum == 4) {
+                items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] - 3
+                items[itemNames.indexOf("Tree Farm")] = items[itemNames.indexOf("Tree Farm")] + 1
                 if (selection == "Axe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
                     ToolNum[0] = ToolNum[0] - 1
+                    tileMem = assets.tile`myTile18`
                 } else if (selection == "Axe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
                     ToolNum[1] = ToolNum[1] - 1
+                    tileMem = assets.tile`myTile19`
                 } else if (selection == "Axe [LVL 3]" && ToolNum[selectedIndex] >= 1) {
                     ToolNum[2] = ToolNum[2] - 1
+                    tileMem = assets.tile`myTile20`
                 } else if (selection == "Axe [LVL 4]" && ToolNum[selectedIndex] >= 1) {
                     ToolNum[3] = ToolNum[3] - 1
+                    tileMem = assets.tile`myTile21`
                 } else if (selection == "Axe [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
                     ToolNum[4] = ToolNum[4] - 1
+                    tileMem = assets.tile`myTile22`
                 }
+                menuNum = 3
             } else if (menuNum == 5) {
+                items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] - 10
+                items[itemNames.indexOf("Wheat Farm")] = items[itemNames.indexOf("Wheat Farm")] + 1
                 if (selection == "Hoe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
                     ToolNum[0] = ToolNum[0] - 1
+                    tileMem = assets.tile`myTile7`
                 } else if (selection == "Hoe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
                     ToolNum[1] = ToolNum[1] - 1
+                    tileMem = assets.tile`myTile9`
                 } else if (selection == "Hoe [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
                     ToolNum[2] = ToolNum[2] - 1
+                    tileMem = assets.tile`myTile11`
                 }
+                menuNum = 3
+            } else if (menuNum == 6) {
+                items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 3
+                items[itemNames.indexOf("Mine")] = items[itemNames.indexOf("Mine")] + 1
+                if (selection == "Pick [LVL 1]" && ToolNum[selectedIndex] >= 1) {
+                    ToolNum[5] = ToolNum[5] - 1
+                    tileMem = assets.tile`myTile26`
+                } else if (selection == "Pick [LVL 2]" && ToolNum[selectedIndex] >= 1) {
+                    ToolNum[6] = ToolNum[6] - 1
+                    tileMem = assets.tile`myTile27`
+                } else if (selection == "Pick [LVL 3]" && ToolNum[selectedIndex] >= 1) {
+                    ToolNum[7] = ToolNum[7] - 1
+                    tileMem = assets.tile`myTile28`
+                } else if (selection == "Pick [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
+                    ToolNum[8] = ToolNum[8] - 1
+                    tileMem = assets.tile`myTile29`
+                }
+                menuNum = 3
+            } else if (menuNum == 7) {
+                items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] - 3
+                items[itemNames.indexOf("Cactus Farm")] = items[itemNames.indexOf("Cactus Farm")] - 10
+                if (selection == "Axe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
+                    ToolNum[0] = ToolNum[0] - 1
+                    tileMem = assets.tile`myTile13`
+                } else if (selection == "Axe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
+                    ToolNum[1] = ToolNum[1] - 1
+                    tileMem = assets.tile`myTile14`
+                } else if (selection == "Axe [LVL 3]" && ToolNum[selectedIndex] >= 1) {
+                    ToolNum[2] = ToolNum[2] - 1
+                    tileMem = assets.tile`myTile15`
+                } else if (selection == "Axe [LVL 4]" && ToolNum[selectedIndex] >= 1) {
+                    ToolNum[3] = ToolNum[3] - 1
+                    tileMem = assets.tile`myTile16`
+                } else if (selection == "Axe [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
+                    ToolNum[4] = ToolNum[4] - 1
+                    tileMem = assets.tile`myTile17`
+                }
+                menuNum = 3
+            } else if (menuNum == 8) {
+                items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 10
+                items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 4
+                items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                if (selection == "Iron" && items[selectedIndex] >= 4) {
+                    items[5] = items[5] - 4
+                } else if (selection == "Diamond" && items[selectedIndex] >= 4) {
+                    items[6] = items[6] - 4
+                }
+                menuNum = 3
+            } else {
+            	
             }
+            Reload_Tool_Menu()
         })
     }
-})
-game.onUpdateInterval(18750, function () {
-    if (Indicator.y < 17) {
-        Indicator.y += 1
-    } else {
-        Indicator.y = 1
+    if (menuNum == 3) {
+        myMenu.close()
+        mySprite3 = sprites.create(img`
+            . . 1 . . 
+            . . 1 . . 
+            1 1 . 1 1 
+            . . 1 . . 
+            . . 1 . . 
+            `, SpriteKind.Player)
+        controller.moveSprite(mySprite3)
     }
 })
-forever(function () {
-	
+game.onUpdateInterval(5000, function () {
+    if (Math.percentChance(1) && tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length > 0) {
+        for (let index = 0; index < 3; index++) {
+            Randomized = randint(0, 9)
+            items[Randomized] = items[Randomized] - randint(0, Math.max(items[Randomized], 10))
+        }
+    }
 })
 game.onUpdateInterval(500, function () {
     if (inMenu) {
@@ -1104,5 +1401,128 @@ game.onUpdateInterval(500, function () {
         })
     } else {
         loadSprites()
+    }
+})
+game.onUpdateInterval(18750, function () {
+    if (Indicator.y < 17) {
+        Indicator.y += 1
+    } else {
+        Indicator.y = 1
+        for (let value of tiles.getTilesByType(assets.tile`myTile7`)) {
+            tiles.setTileAt(value, assets.tile`myTile8`)
+        }
+        for (let value of tiles.getTilesByType(assets.tile`myTile9`)) {
+            tiles.setTileAt(value, assets.tile`myTile10`)
+        }
+        for (let value of tiles.getTilesByType(assets.tile`myTile11`)) {
+            tiles.setTileAt(value, assets.tile`myTile12`)
+        }
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile26`)) {
+        items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] + 5
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile27`)) {
+        items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] + 10
+        items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] + 1
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile28`)) {
+        items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] + 15
+        items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] + 10
+        if (Math.percentChance(1)) {
+            items[itemNames.indexOf("Diamonds")] = items[itemNames.indexOf("Diamonds")] + 1
+        }
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile28`)) {
+        items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] + 30
+        items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] + 20
+        if (Math.percentChance(80)) {
+            items[itemNames.indexOf("Diamonds")] = items[itemNames.indexOf("Diamonds")] + randint(0, 5)
+        }
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile13`)) {
+        items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] + randint(0, 1)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile14`)) {
+        items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] + randint(1, 3)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile15`)) {
+        items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] + randint(4, 7)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile16`)) {
+        items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] + randint(8, 15)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile17`)) {
+        items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] + randint(16, 30)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile18`)) {
+        items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + randint(0, 1)
+        items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + randint(0, 1)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile19`)) {
+        items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + randint(1, 2)
+        items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + randint(1, 3)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile20`)) {
+        items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + randint(2, 3)
+        items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + randint(4, 7)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile21`)) {
+        items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + randint(3, 5)
+        items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + randint(7, 15)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile22`)) {
+        items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + randint(5, 10)
+        items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + randint(16, 30)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile23`)) {
+        if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Left), assets.tile`myTile8`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Left), assets.tile`myTile7`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(0, 3)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(0, 10)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Top), assets.tile`myTile8`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Top), assets.tile`myTile7`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(0, 3)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(0, 10)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Right), assets.tile`myTile8`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Right), assets.tile`myTile7`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(0, 3)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(0, 10)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Bottom), assets.tile`myTile8`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Bottom), assets.tile`myTile7`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(0, 3)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(0, 10)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Left), assets.tile`myTile10`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Left), assets.tile`myTile9`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(2, 5)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(11, 20)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Top), assets.tile`myTile10`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Top), assets.tile`myTile9`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(2, 5)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(11, 20)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Right), assets.tile`myTile10`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Right), assets.tile`myTile9`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(2, 5)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(11, 20)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Bottom), assets.tile`myTile10`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Bottom), assets.tile`myTile9`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(2, 5)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(11, 20)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Left), assets.tile`myTile12`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Left), assets.tile`myTile12`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(6, 10)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(21, 30)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Top), assets.tile`myTile12`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Top), assets.tile`myTile12`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(6, 10)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(21, 30)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Right), assets.tile`myTile12`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Right), assets.tile`myTile12`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(6, 10)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(21, 30)
+        } else if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Bottom), assets.tile`myTile12`)) {
+            tiles.setTileAt(value.getNeighboringLocation(CollisionDirection.Bottom), assets.tile`myTile12`)
+            items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(6, 10)
+            items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(21, 30)
+        }
     }
 })
