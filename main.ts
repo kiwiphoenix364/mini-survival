@@ -665,6 +665,7 @@ controller.B.onEvent(ControllerButtonEvent.Released, function () {
     controller.moveSprite(Collision2)
     ToolMenu.setButtonEventsEnabled(false)
 })
+let myMenu2: miniMenu.MenuSprite = null
 let Smoke2: Sprite = null
 let arrowSprite2: Sprite = null
 let Obj: Sprite = null
@@ -700,7 +701,7 @@ let ToolNum = [
 0,
 0
 ]
-let Tools: string[] = []
+let Tools: number[] = []
 ToolList = [miniMenu.createMenuItem("[NONE]")]
 ToolMenu = miniMenu.createMenu(
 miniMenu.createMenuItem("[NONE]")
@@ -889,133 +890,162 @@ game.onUpdate(function () {
                 if (selectedIndex == 0) {
                     if (items[itemNames.indexOf("Sticks")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 3
-                        if (true) {
-                            Tools[selectedIndex] = "Axe [LVL 1]"
-                            ToolNum[Tools.indexOf("Axe [LVL 1]")] = ToolNum[Tools.indexOf("Axe [LVL 1]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL1] " + "x" + ToolNum[Tools.indexOf("Axe [LVL1]")])
-                        }
+                        Tools[selectedIndex] = "Axe [LVL 1]"
+                        ToolNum[Tools.indexOf("Axe [LVL 1]")] = ToolNum[Tools.indexOf("Axe [LVL 1]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL1] " + "x" + ToolNum[Tools.indexOf("Axe [LVL1]")])
                     }
                 } else if (selectedIndex == 1) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Wood")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Sticks")] - 1
-                        if (true) {
-                            Tools[selectedIndex] = "Axe [LVL 2]"
-                            ToolNum[Tools.indexOf("Axe [LVL 2]")] = ToolNum[Tools.indexOf("Axe [LVL 2]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL2] " + "x" + ToolNum[Tools.indexOf("Axe [LVL2]")])
-                        }
+                        Tools[selectedIndex] = "Axe [LVL 2]"
+                        ToolNum[Tools.indexOf("Axe [LVL 2]")] = ToolNum[Tools.indexOf("Axe [LVL 2]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL2] " + "x" + ToolNum[Tools.indexOf("Axe [LVL2]")])
                     }
                 } else if (selectedIndex == 2) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 1
-                        if (true) {
-                            Tools[selectedIndex] = "Axe [LVL 3]"
-                            ToolNum[Tools.indexOf("Axe [LVL 3]")] = ToolNum[Tools.indexOf("Axe [LVL 3]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL3] " + "x" + ToolNum[Tools.indexOf("Axe [LVL3]")])
-                        }
+                        Tools[selectedIndex] = "Axe [LVL 3]"
+                        ToolNum[Tools.indexOf("Axe [LVL 3]")] = ToolNum[Tools.indexOf("Axe [LVL 3]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL3] " + "x" + ToolNum[Tools.indexOf("Axe [LVL3]")])
                     }
                 } else if (selectedIndex == 3) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 1
-                        if (true) {
-                            Tools[selectedIndex] = "Axe [LVL 4]"
-                            ToolNum[Tools.indexOf("Axe [LVL 4]")] = ToolNum[Tools.indexOf("Axe [LVL 4]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL 4] " + "x" + ToolNum[Tools.indexOf("Axe [LVL 4]")])
-                        }
+                        Tools[selectedIndex] = "Axe [LVL 4]"
+                        ToolNum[Tools.indexOf("Axe [LVL 4]")] = ToolNum[Tools.indexOf("Axe [LVL 4]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL 4] " + "x" + ToolNum[Tools.indexOf("Axe [LVL 4]")])
                     }
                 } else if (selectedIndex == 4) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 1) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Diamonds")] = items[itemNames.indexOf("Diamonds")] - 1
-                        if (true) {
-                            Tools[selectedIndex] = "Axe [MAX LVL]"
-                            ToolNum[Tools.indexOf("Axe [MAX LVL]")] = ToolNum[Tools.indexOf("Axe [MAX LVL]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Axe [MAX LVL]")])
-                        }
+                        Tools[selectedIndex] = "Axe [MAX LVL]"
+                        ToolNum[Tools.indexOf("Axe [MAX LVL]")] = ToolNum[Tools.indexOf("Axe [MAX LVL]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Axe [MAX LVL]")])
                     }
                 } else if (selectedIndex == 5) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Wood")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 3
-                        if (true) {
-                            Tools[selectedIndex] = "Pick [LVL 1]"
-                            ToolNum[Tools.indexOf("Pick [LVL 1]")] = ToolNum[Tools.indexOf("Pick [LVL 1]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 1] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 1]")])
-                        }
+                        Tools[selectedIndex] = "Pick [LVL 1]"
+                        ToolNum[Tools.indexOf("Pick [LVL 1]")] = ToolNum[Tools.indexOf("Pick [LVL 1]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 1] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 1]")])
                     }
                 } else if (selectedIndex == 6) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 3
-                        if (true) {
-                            Tools[selectedIndex] = "Pick [LVL 2]"
-                            ToolNum[Tools.indexOf("Pick [LVL 2]")] = ToolNum[Tools.indexOf("Pick [LVL 2]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 2] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 2]")])
-                        }
+                        Tools[selectedIndex] = "Pick [LVL 2]"
+                        ToolNum[Tools.indexOf("Pick [LVL 2]")] = ToolNum[Tools.indexOf("Pick [LVL 2]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 2] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 2]")])
                     }
                 } else if (selectedIndex == 7) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 3
-                        if (true) {
-                            Tools[selectedIndex] = "Pick [LVL 3]"
-                            ToolNum[Tools.indexOf("Pick [LVL 3]")] = ToolNum[Tools.indexOf("Pick [LVL 3]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 3] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 3]")])
-                        }
+                        Tools[selectedIndex] = "Pick [LVL 3]"
+                        ToolNum[Tools.indexOf("Pick [LVL 3]")] = ToolNum[Tools.indexOf("Pick [LVL 3]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [LVL 3] " + "x" + ToolNum[Tools.indexOf("Pick [LVL 3]")])
                     }
                 } else if (selectedIndex == 8) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 3) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Diamond")] = items[itemNames.indexOf("Diamond")] - 3
-                        if (true) {
-                            Tools[selectedIndex] = "Pick [MAX LVL]"
-                            ToolNum[Tools.indexOf("Pick [MAX LVL]")] = ToolNum[Tools.indexOf("Pick [MAX LVL]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Pick [MAX LVL]")])
-                        }
+                        Tools[selectedIndex] = "Pick [MAX LVL]"
+                        ToolNum[Tools.indexOf("Pick [MAX LVL]")] = ToolNum[Tools.indexOf("Pick [MAX LVL]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Pick [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Pick [MAX LVL]")])
                     }
                 } else if (selectedIndex == 9) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 2) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 2
-                        if (true) {
-                            Tools[selectedIndex] = "Hoe [LVL 1]"
-                            ToolNum[Tools.indexOf("Hoe [LVL 1]")] = ToolNum[Tools.indexOf("Hoe [LVL 1]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [LVL 1] " + "x" + ToolNum[Tools.indexOf("Hoe [LVL 1]")])
-                        }
+                        Tools[selectedIndex] = "Hoe [LVL 1]"
+                        ToolNum[Tools.indexOf("Hoe [LVL 1]")] = ToolNum[Tools.indexOf("Hoe [LVL 1]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [LVL 1] " + "x" + ToolNum[Tools.indexOf("Hoe [LVL 1]")])
                     }
                 } else if (selectedIndex == 10) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 2) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 2
-                        if (true) {
-                            Tools[selectedIndex] = "Hoe [LVL 2]"
-                            ToolNum[Tools.indexOf("Hoe [LVL 2]")] = ToolNum[Tools.indexOf("Hoe [LVL 2]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [LVL 2] " + "x" + ToolNum[Tools.indexOf("Hoe [LVL 2]")])
-                        }
+                        Tools[selectedIndex] = "Hoe [LVL 2]"
+                        ToolNum[Tools.indexOf("Hoe [LVL 2]")] = ToolNum[Tools.indexOf("Hoe [LVL 2]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [LVL 2] " + "x" + ToolNum[Tools.indexOf("Hoe [LVL 2]")])
                     }
                 } else if (selectedIndex == 11) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Diamonds")] >= 2) {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                         items[itemNames.indexOf("Diamonds")] = items[itemNames.indexOf("Diamonds")] - 2
-                        if (true) {
-                            Tools[selectedIndex] = "Hoe [MAX LVL]"
-                            ToolNum[Tools.indexOf("Hoe [MAX LVL]")] = ToolNum[Tools.indexOf("Hoe [MAX LVL]")] + 1
-                            ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Hoe [MAX LVL]")])
-                        }
+                        Tools[selectedIndex] = "Hoe [MAX LVL]"
+                        ToolNum[Tools.indexOf("Hoe [MAX LVL]")] = ToolNum[Tools.indexOf("Hoe [MAX LVL]")] + 1
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [MAX LVL] " + "x" + ToolNum[Tools.indexOf("Hoe [MAX LVL]")])
                     }
                 } else if (selectedIndex == 12) {
                     if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
+                        myMenu.setButtonEventsEnabled(false)
+                        myMenu2 = miniMenu.createMenu(
+                        miniMenu.createMenuItem(Tools[0]),
+                        miniMenu.createMenuItem(Tools[1]),
+                        miniMenu.createMenuItem(Tools[2]),
+                        miniMenu.createMenuItem(Tools[3]),
+                        miniMenu.createMenuItem(Tools[4])
+                        )
+                        if (true) {
+                            myMenu2.close()
+                            myMenu2.z = 1000
+                            myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
+                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 158)
+                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
+                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
+                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+                            myMenu2.setTitle("Select Axe Type")
+                            menuNum = 4
+                            myMenu.top = 1
+                            myMenu.left = 1
+                        }
                         items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] - 3
+                        items[itemNames.indexOf("Cactus Farm")] = items[itemNames.indexOf("Cactus Farm")] - 10
                     }
                 } else if (selectedIndex == 13) {
                     if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
+                        myMenu.setButtonEventsEnabled(false)
+                        myMenu2 = miniMenu.createMenu(
+                        miniMenu.createMenuItem(Tools[0]),
+                        miniMenu.createMenuItem(Tools[1]),
+                        miniMenu.createMenuItem(Tools[2]),
+                        miniMenu.createMenuItem(Tools[3]),
+                        miniMenu.createMenuItem(Tools[4])
+                        )
+                        if (true) {
+                            myMenu2.close()
+                            myMenu2.z = 1000
+                            myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
+                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 158)
+                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 118)
+                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Columns, 1)
+                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.Rows, 6)
+                            myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
+                            myMenu2.setTitle("Select Axe Type")
+                            menuNum = 4
+                            myMenu.top = 1
+                            myMenu.left = 1
+                        }
                         items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] - 3
+                        items[itemNames.indexOf("Tree Farm")] = items[itemNames.indexOf("Tree Farm")] - 10
                     }
                 } else if (selectedIndex == 14) {
                     if (items[itemNames.indexOf("Seeds")] >= 10 && (items[itemNames.indexOf("Hoe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Hoe [LVL 2]")] >= 1 || items[itemNames.indexOf("Hoe [MAX LVL]")] >= 1))) {
+                        myMenu.setButtonEventsEnabled(false)
+                        myMenu2 = miniMenu.createMenu(
+                        miniMenu.createMenuItem("Hoe [LVL 1]"),
+                        miniMenu.createMenuItem("Hoe [LVL 2]"),
+                        miniMenu.createMenuItem("Hoe [MAX LVL]")
+                        )
                         items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] - 10
+                        items[itemNames.indexOf("Wheat Farm")] = items[itemNames.indexOf("Wheat Farm")] - 10
                     }
                 } else if (selectedIndex == 15) {
                     if (items[itemNames.indexOf("Wood")] >= 10 && items[itemNames.indexOf("Iron")] >= 4) {
@@ -1024,10 +1054,31 @@ game.onUpdate(function () {
                     }
                 } else if (selectedIndex == 16) {
                     if (items[itemNames.indexOf("Wood")] >= 10 && items[itemNames.indexOf("Iron")] >= 4 && (items[itemNames.indexOf("Sticks")] >= 2 && (items[itemNames.indexOf("Iron")] >= 2 || items[itemNames.indexOf("Diamonds")] >= 2))) {
+                        myMenu.setButtonEventsEnabled(false)
                         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 10
                         items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 4
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
                     }
+                }
+            } else if (menuNum == 4) {
+                if (selection == "Axe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
+                    Tools[0] = ToolNum[0] - 1
+                } else if (selection == "Axe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
+                    Tools[1] = ToolNum[1] - 1
+                } else if (selection == "Axe [LVL 3]" && ToolNum[selectedIndex] >= 1) {
+                    Tools[2] = ToolNum[2] - 1
+                } else if (selection == "Axe [LVL 4]" && ToolNum[selectedIndex] >= 1) {
+                    Tools[3] = ToolNum[3] - 1
+                } else if (selection == "Axe [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
+                    Tools[4] = ToolNum[4] - 1
+                }
+            } else if (menuNum == 5) {
+                if (selection == "Hoe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
+                    Tools[0] = ToolNum[0] - 1
+                } else if (selection == "Hoe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
+                    Tools[1] = ToolNum[1] - 1
+                } else if (selection == "Hoe [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
+                    Tools[2] = ToolNum[2] - 1
                 }
             }
         })
