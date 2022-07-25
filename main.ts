@@ -19,10 +19,17 @@ function Reload_Tool_Menu () {
     ToolMenu.z = 998
     ToolMenu.top = 1
     ToolMenu.left = 1
-    ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 64)
+    ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 112)
     ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 24)
     ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
 }
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (!(inMenu)) {
+        controller.moveSprite(Collision2, 0, 0)
+        Reload_Tool_Menu()
+        ToolMenu.setButtonEventsEnabled(true)
+    }
+})
 controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
     if (controller.right.isPressed() && inMenu && menuNum == 1) {
     	
@@ -435,6 +442,9 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile12`, function (sprite, 
         items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(21, 30)
     }
 })
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+	
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile9`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
@@ -501,10 +511,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite, 
             tiles.setTileAt(location, assets.tile`0`)
         }
     }
-})
-controller.B.onEvent(ControllerButtonEvent.Released, function () {
-    controller.moveSprite(Collision2)
-    ToolMenu.setButtonEventsEnabled(false)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile8`, function (sprite, location) {
     if (controller.A.isPressed()) {
@@ -765,12 +771,9 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         menuNum = 0
     }
 })
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(inMenu)) {
-        controller.moveSprite(Collision2, 0, 0)
-        ToolMenu.setButtonEventsEnabled(true)
-        Reload_Tool_Menu()
-    }
+controller.B.onEvent(ControllerButtonEvent.Released, function () {
+    controller.moveSprite(Collision2)
+    ToolMenu.setButtonEventsEnabled(false)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite, location) {
     if (controller.A.isPressed()) {
@@ -840,7 +843,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile28`, function (sprite, 
         }
     }
 })
-let savedTilemap: number[] = []
 let Randomized = 0
 let textSprite: TextSprite = null
 let enemyStats = 0
@@ -856,6 +858,7 @@ let arrowSprite: Sprite = null
 let myMenu: miniMenu.MenuSprite = null
 let menuNum = 0
 let inMenu = false
+let savedTilemap: number[] = []
 let RandomNum = 0
 let Collision2: Sprite = null
 let mySprite: Sprite = null
@@ -865,6 +868,17 @@ let ToolMenu: miniMenu.MenuSprite = null
 let ToolList: miniMenu.MenuItem[] = []
 let Tools: string[] = []
 let ToolNum: number[] = []
+if (blockSettings.exists("Tilemap")) {
+    if (game.ask("Continue Saved Game? [A]", "Delete Save [B]")) {
+    	
+    } else {
+        if (game.ask("Confirm Delete [A]", "Go Back [A]")) {
+            blockSettings.clear()
+        } else {
+            game.reset()
+        }
+    }
+}
 ToolNum = [
 0,
 0,
@@ -902,7 +916,19 @@ Tools = [
 "",
 ""
 ]
-ToolList = [miniMenu.createMenuItem("[NONE]")]
+ToolList = [
+miniMenu.createMenuItem(""),
+miniMenu.createMenuItem(""),
+miniMenu.createMenuItem(""),
+miniMenu.createMenuItem(""),
+miniMenu.createMenuItem(""),
+miniMenu.createMenuItem(""),
+miniMenu.createMenuItem(""),
+miniMenu.createMenuItem(""),
+miniMenu.createMenuItem(""),
+miniMenu.createMenuItem(""),
+miniMenu.createMenuItem("")
+]
 ToolMenu = miniMenu.createMenu(
 miniMenu.createMenuItem("[NONE]")
 )
@@ -912,7 +938,7 @@ ToolMenu.setTitle("Tools [Hold B]")
 ToolMenu.z = 998
 ToolMenu.top = 1
 ToolMenu.left = 1
-ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 64)
+ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 112)
 ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 24)
 ToolMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
 items = [
@@ -1070,11 +1096,42 @@ assets.tile`myTile28`,
 assets.tile`myTile29`
 ]
 if (blockSettings.exists("Tilemap")) {
+    savedTilemap = blockSettings.readNumberArray("Tilemap")
     for (let index = 0; index <= 99; index++) {
         for (let index2 = 0; index2 <= 99; index2++) {
-            tiles.setTileAt(tiles.getTileLocation(index, index2), list[blockSettings.readNumberArray("Tilemap")[(index + 1) * (index2 + 1) - 1]])
+            tiles.setTileAt(tiles.getTileLocation(index2, index), list[savedTilemap[index * 100 + index2]])
         }
     }
+    items = blockSettings.readNumberArray("items")
+    ToolNum = blockSettings.readNumberArray("ToolNum")
+}
+ToolList[0] = miniMenu.createMenuItem("Axe [LVL 1] " + "x" + ToolNum[0])
+ToolList[1] = miniMenu.createMenuItem("Axe [LVL 2] " + "x" + ToolNum[1])
+ToolList[2] = miniMenu.createMenuItem("Axe [LVL 3] " + "x" + ToolNum[2])
+ToolList[3] = miniMenu.createMenuItem("Axe [LVL 4] " + "x" + ToolNum[3])
+ToolList[4] = miniMenu.createMenuItem("Axe [MAX LVL] " + "x" + ToolNum[4])
+ToolList[5] = miniMenu.createMenuItem("Pick [LVL 1] " + "x" + ToolNum[5])
+ToolList[6] = miniMenu.createMenuItem("Pick [LVL 2] " + "x" + ToolNum[6])
+ToolList[7] = miniMenu.createMenuItem("Pick [LVL 3] " + "x" + ToolNum[7])
+ToolList[8] = miniMenu.createMenuItem("Pick [MAX LVL] " + "x" + ToolNum[8])
+ToolList[9] = miniMenu.createMenuItem("Hoe [LVL 1] " + "x" + ToolNum[9])
+ToolList[10] = miniMenu.createMenuItem("Hoe [LVL 2] " + "x" + ToolNum[10])
+ToolList[11] = miniMenu.createMenuItem("Hoe [MAX LVL] " + "x" + ToolNum[11])
+Reload_Tool_Menu()
+for (let value32 of tiles.getTilesByType(assets.tile`myTile23`)) {
+    tiles.setWallAt(value32, true)
+}
+for (let value32 of tiles.getTilesByType(assets.tile`myTile24`)) {
+    tiles.setWallAt(value32, true)
+}
+for (let value32 of tiles.getTilesByType(assets.tile`myTile25`)) {
+    tiles.setWallAt(value32, true)
+}
+for (let value32 of tiles.getTilesByType(assets.tile`myTile5`)) {
+    tiles.setWallAt(value32, true)
+}
+for (let value32 of tiles.getTilesByType(assets.tile`6`)) {
+    tiles.setWallAt(value32, true)
 }
 game.onUpdate(function () {
     mySprite.bottom = Collision2.bottom + 1
@@ -1121,7 +1178,7 @@ game.onUpdate(function () {
                         items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 3
                         Tools[selectedIndex] = "Axe [LVL 1]"
                         ToolNum[0] = ToolNum[0] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL1] " + "x" + ToolNum[0])
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL 1] " + "x" + ToolNum[0])
                     }
                 } else if (selectedIndex == 1) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Wood")] >= 1) {
@@ -1129,7 +1186,7 @@ game.onUpdate(function () {
                         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Sticks")] - 1
                         Tools[selectedIndex] = "Axe [LVL 2]"
                         ToolNum[1] = ToolNum[1] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL2] " + "x" + ToolNum[1])
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL 2] " + "x" + ToolNum[1])
                     }
                 } else if (selectedIndex == 2) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Stone")] >= 1) {
@@ -1137,7 +1194,7 @@ game.onUpdate(function () {
                         items[itemNames.indexOf("Stone")] = items[itemNames.indexOf("Stone")] - 1
                         Tools[selectedIndex] = "Axe [LVL 3]"
                         ToolNum[2] = ToolNum[2] + 1
-                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL3] " + "x" + ToolNum[2])
+                        ToolList[selectedIndex] = miniMenu.createMenuItem("Axe [LVL 3] " + "x" + ToolNum[2])
                     }
                 } else if (selectedIndex == 3) {
                     if (items[itemNames.indexOf("Sticks")] >= 2 && items[itemNames.indexOf("Iron")] >= 1) {
@@ -1426,6 +1483,64 @@ game.onUpdate(function () {
         controller.moveSprite(mySprite3)
     }
 })
+game.onUpdate(function () {
+    characterAnimations.loopFrames(
+    mySprite,
+    [img`
+        . e e e . 
+        e e e e e 
+        . f 4 f . 
+        . 4 4 4 . 
+        4 2 2 2 4 
+        . 2 2 2 . 
+        . f . f . 
+        `],
+    0,
+    characterAnimations.rule(Predicate.FacingDown)
+    )
+    characterAnimations.loopFrames(
+    mySprite,
+    [img`
+        . e e e . 
+        e e e e e 
+        . 4 4 4 . 
+        . 4 4 4 . 
+        4 2 2 2 4 
+        . 2 2 2 . 
+        . f . f . 
+        `],
+    100,
+    characterAnimations.rule(Predicate.FacingUp)
+    )
+    characterAnimations.loopFrames(
+    mySprite,
+    [img`
+        . e e . . 
+        e e e e . 
+        . f 4 . . 
+        . 4 4 . . 
+        . 2 2 . . 
+        . 2 2 . . 
+        . . f . . 
+        `],
+    100,
+    characterAnimations.rule(Predicate.FacingLeft)
+    )
+    characterAnimations.loopFrames(
+    mySprite,
+    [img`
+        . . e e . 
+        . e e e e 
+        . . 4 f . 
+        . . 4 4 . 
+        . . 2 2 . 
+        . . 2 2 . 
+        . . f . . 
+        `],
+    100,
+    characterAnimations.rule(Predicate.FacingRight)
+    )
+})
 game.onUpdateInterval(5000, function () {
     if (Math.percentChance(1) && tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length * 2 > 0) {
         myStats = tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length * 2
@@ -1598,10 +1713,12 @@ game.onUpdateInterval(18750, function () {
         }
     }
     savedTilemap = []
-    for (let index = 0; index <= 99; index++) {
-        for (let index2 = 0; index2 <= 99; index2++) {
+    for (let index2 = 0; index2 <= 99; index2++) {
+        for (let index = 0; index <= 99; index++) {
             savedTilemap.push(list.indexOf(tiles.tileImageAtLocation(tiles.getTileLocation(index, index2))))
         }
     }
     blockSettings.writeNumberArray("Tilemap", savedTilemap)
+    blockSettings.writeNumberArray("ToolNum", ToolNum)
+    blockSettings.writeNumberArray("items", items)
 })
