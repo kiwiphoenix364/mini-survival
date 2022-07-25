@@ -701,7 +701,7 @@ let ToolNum = [
 0,
 0
 ]
-let Tools: number[] = []
+let Tools = [""]
 ToolList = [miniMenu.createMenuItem("[NONE]")]
 ToolMenu = miniMenu.createMenu(
 miniMenu.createMenuItem("[NONE]")
@@ -1062,7 +1062,7 @@ game.onUpdate(function () {
                 }
             } else if (menuNum == 4) {
                 if (selection == "Axe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
-                    Tools[0] = ToolNum[0] - 1
+                    ToolNum[0] = ToolNum[0] - 1
                 } else if (selection == "Axe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
                     ToolNum[1] = ToolNum[1] - 1
                 } else if (selection == "Axe [LVL 3]" && ToolNum[selectedIndex] >= 1) {
