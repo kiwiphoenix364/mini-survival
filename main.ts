@@ -3,13 +3,6 @@ namespace SpriteKind {
     export const Collision = SpriteKind.create()
     export const Smoke = SpriteKind.create()
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile19`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`2`)
-        }
-    }
-})
 function Reload_Tool_Menu () {
     ToolMenu.destroy()
     ToolMenu = miniMenu.createMenuFromArray(ToolList)
@@ -28,6 +21,20 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         controller.moveSprite(Collision2, 0, 0)
         Reload_Tool_Menu()
         ToolMenu.setButtonEventsEnabled(true)
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile29`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`4`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile20`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`2`)
+        }
     }
 })
 controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -248,57 +255,185 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
         myMenu.left = 1
     }
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile15`, function (sprite, location) {
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile26`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`0`)
-        }
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile22`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`2`)
-        }
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile24`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`1`)
-        }
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`0`)
+            tiles.setTileAt(location, assets.tile`4`)
         }
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (menuNum == 3) {
+    if (menuNum == 10) {
         if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`4`) || (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`3`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`2`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`1`) || tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`0`))) {
             if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`4`)) {
                 if (tileMem == assets.tile`myTile26` || tileMem == assets.tile`myTile27` || (tileMem == assets.tile`myTile28` || tileMem == assets.tile`myTile28`)) {
                     tiles.setTileAt(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), tileMem)
+                    scene.cameraFollowSprite(mySprite)
+                    mySprite3.destroy()
+                    menuNum = 0
+                    inMenu = false
                 } else {
-                    mySprite3.sayText("Can't Be Placed On")
-                }
-            } else {
-                if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`4`)) {
-                    mySprite3.sayText("Can't Be Placed On")
-                } else {
-                    tiles.setTileAt(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), tileMem)
+                    if (tiles.tileAtLocationEquals(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), assets.tile`4`)) {
+                        mySprite3.sayText("Can't Be Placed On")
+                    } else {
+                        tiles.setTileAt(tiles.getTileLocation(mySprite3.x / 16, mySprite3.y / 16), tileMem)
+                        scene.cameraFollowSprite(mySprite)
+                        mySprite3.destroy()
+                        menuNum = 0
+                        inMenu = false
+                    }
                 }
             }
+        } else {
+            mySprite3.sayText("Can't Be Placed On")
         }
     }
+    if (menuNum == 3) {
+        myMenu.close()
+        myMenu2.close()
+        mySprite3 = sprites.create(img`
+            . . 1 . . 
+            . . 1 . . 
+            1 1 . 1 1 
+            . . 1 . . 
+            . . 1 . . 
+            `, SpriteKind.Player)
+        mySprite3.setPosition(mySprite.x, mySprite.y)
+        scene.cameraFollowSprite(mySprite3)
+        controller.moveSprite(mySprite3)
+        menuNum = 10
+    }
+    if (inMenu) {
+        myMenu2.onButtonPressed(controller.A, function (selection, selectedIndex) {
+            if (menuNum == 2) {
+            	
+            } else if (menuNum == 4) {
+                items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] - 3
+                if (selection == "Axe [LVL 1]" + " x" + ToolNum[0] && ToolNum[0] >= 1) {
+                    ToolNum[0] = ToolNum[0] - 1
+                    tileMem = assets.tile`myTile18`
+                    menuNum = 3
+                } else if (selection == "Axe [LVL 2]" + " x" + ToolNum[1] && ToolNum[1] >= 1) {
+                    ToolNum[1] = ToolNum[1] - 1
+                    tileMem = assets.tile`myTile19`
+                    menuNum = 3
+                } else if (selection == "Axe [LVL 3]" + " x" + ToolNum[2] && ToolNum[2] >= 1) {
+                    ToolNum[2] = ToolNum[2] - 1
+                    tileMem = assets.tile`myTile20`
+                    menuNum = 3
+                } else if (selection == "Axe [LVL 4]" + " x" + ToolNum[3] && ToolNum[3] >= 1) {
+                    ToolNum[3] = ToolNum[3] - 1
+                    tileMem = assets.tile`myTile21`
+                    menuNum = 3
+                } else if (selection == "Axe [MAX LVL]" + " x" + ToolNum[4] && ToolNum[4] >= 1) {
+                    ToolNum[4] = ToolNum[4] - 1
+                    tileMem = assets.tile`myTile22`
+                    menuNum = 3
+                }
+            } else if (menuNum == 5) {
+                items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] - 10
+                if (selection == "Hoe [LVL 1]" + " x" + ToolNum[9] && ToolNum[9] >= 1) {
+                    ToolNum[9] = ToolNum[9] - 1
+                    tileMem = assets.tile`myTile7`
+                    menuNum = 3
+                } else if (selection == "Hoe [LVL 2]" + " x" + ToolNum[10] && ToolNum[10] >= 1) {
+                    ToolNum[10] = ToolNum[10] - 1
+                    tileMem = assets.tile`myTile9`
+                    menuNum = 3
+                } else if (selection == "Hoe [MAX LVL]" + " x" + ToolNum[11] && ToolNum[11] >= 1) {
+                    ToolNum[11] = ToolNum[11] - 1
+                    tileMem = assets.tile`myTile11`
+                    menuNum = 3
+                }
+            } else if (menuNum == 6) {
+                items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 3
+                items[itemNames.indexOf("Mine")] = items[itemNames.indexOf("Mine")] + 1
+                if (selection == "Pick [LVL 1]" + " x" + ToolNum[5] && ToolNum[5] >= 1) {
+                    ToolNum[5] = ToolNum[5] - 1
+                    tileMem = assets.tile`myTile26`
+                    menuNum = 3
+                } else if (selection == "Pick [LVL 2]" + " x" + ToolNum[6] && ToolNum[6] >= 1) {
+                    ToolNum[6] = ToolNum[6] - 1
+                    tileMem = assets.tile`myTile27`
+                    menuNum = 3
+                } else if (selection == "Pick [LVL 3]" + " x" + ToolNum[7] && ToolNum[7] >= 1) {
+                    ToolNum[7] = ToolNum[7] - 1
+                    tileMem = assets.tile`myTile28`
+                    menuNum = 3
+                } else if (selection == "Pick [MAX LVL]" + " x" + ToolNum[8] && ToolNum[8] >= 1) {
+                    ToolNum[8] = ToolNum[8] - 1
+                    tileMem = assets.tile`myTile29`
+                    menuNum = 3
+                }
+            } else if (menuNum == 7) {
+                items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] - 3
+                items[itemNames.indexOf("Cactus Farm")] = items[itemNames.indexOf("Cactus Farm")] - 10
+                if (selection == "Axe [LVL 1]" && ToolNum[0] >= 1) {
+                    ToolNum[0] = ToolNum[0] - 1
+                    tileMem = assets.tile`myTile13`
+                    menuNum = 3
+                } else if (selection == "Axe [LVL 2]" && ToolNum[1] >= 1) {
+                    ToolNum[1] = ToolNum[1] - 1
+                    tileMem = assets.tile`myTile14`
+                    menuNum = 3
+                } else if (selection == "Axe [LVL 3]" && ToolNum[2] >= 1) {
+                    ToolNum[2] = ToolNum[2] - 1
+                    tileMem = assets.tile`myTile15`
+                    menuNum = 3
+                } else if (selection == "Axe [LVL 4]" && ToolNum[3] >= 1) {
+                    ToolNum[3] = ToolNum[3] - 1
+                    tileMem = assets.tile`myTile16`
+                    menuNum = 3
+                } else if (selection == "Axe [MAX LVL]" && ToolNum[4] >= 1) {
+                    ToolNum[4] = ToolNum[4] - 1
+                    tileMem = assets.tile`myTile17`
+                    menuNum = 3
+                }
+            } else if (menuNum == 8) {
+                items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 10
+                items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 4
+                items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
+                if (selection == "Iron" && items[selectedIndex] >= 4) {
+                    items[5] = items[5] - 4
+                } else if (selection == "Diamond" && items[selectedIndex] >= 4) {
+                    items[6] = items[6] - 4
+                }
+            } else {
+            	
+            }
+        })
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`5`, function (sprite, location) {
+    timer.throttle("action", 100, function () {
+        if (!(inMenu)) {
+            if (controller.A.isPressed()) {
+                if (Math.percentChance(40)) {
+                    mySprite.sayText("+1 Seeds, +1 Sticks", 500, false)
+                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
+                    items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + 1
+                } else {
+                    mySprite.sayText("+1 Seeds", 500, false)
+                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
+                }
+                tiles.setTileAt(location, assets.tile`1`)
+                tiles.setWallAt(location, false)
+                loadSprites()
+            }
+        }
+    })
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
             tiles.setTileAt(location, assets.tile`1`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile17`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`0`)
         }
     }
 })
@@ -356,7 +491,7 @@ function loadSprites () {
                 Obj.setFlag(SpriteFlag.Ghost, true)
                 Obj.x = value.x
                 Obj.bottom = value.y
-                Obj.z = Obj.bottom
+                Obj.z = Obj.bottom / 100
                 pause(Repeat)
             }
         }
@@ -385,7 +520,7 @@ function loadSprites () {
                 Obj.setFlag(SpriteFlag.Ghost, true)
                 Obj.x = value.x
                 Obj.bottom = value.y
-                Obj.z = Obj.bottom
+                Obj.z = Obj.bottom / 100
                 pause(Repeat)
             }
         }
@@ -422,13 +557,13 @@ function loadSprites () {
                 Obj.setFlag(SpriteFlag.Ghost, true)
                 Obj.x = value.x
                 Obj.bottom = value.y
-                Obj.z = Obj.bottom
+                Obj.z = Obj.bottom / 100
                 pause(Repeat)
             }
         }
     })
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile25`, function (sprite, location) {
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile25`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
             tiles.setTileAt(location, assets.tile`1`)
@@ -442,27 +577,66 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile12`, function (sprite, 
         items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(21, 30)
     }
 })
-controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-	
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile9`, function (sprite, location) {
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile11`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
             tiles.setTileAt(location, assets.tile`1`)
         }
     }
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite, location) {
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile9`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`1`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile19`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
             tiles.setTileAt(location, assets.tile`2`)
         }
     }
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile29`, function (sprite, location) {
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile21`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`2`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile27`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
             tiles.setTileAt(location, assets.tile`4`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile13`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`0`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile18`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`2`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile8`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        tiles.setTileAt(location, assets.tile`myTile7`)
+        items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(0, 3)
+        items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(0, 10)
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile22`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`2`)
         }
     }
 })
@@ -484,60 +658,8 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile5`, function (sprite, l
         }
     })
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile21`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`2`)
-        }
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile16`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`0`)
-        }
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile20`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`2`)
-        }
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`0`)
-        }
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile8`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        tiles.setTileAt(location, assets.tile`myTile7`)
-        items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + randint(0, 3)
-        items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(0, 10)
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`6`, function (sprite, location) {
-    timer.throttle("action", 250, function () {
-        if (!(inMenu)) {
-            if (controller.A.isPressed()) {
-                if (ToolNum[Tools.indexOf("Axe [LVL 1]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 2]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 3]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 4]")] > 0 || ToolNum[Tools.indexOf("Axe [MAX LVL]")] > 0)))) {
-                    mySprite.sayText("+1 Wood", 500, false)
-                    items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] + 1
-                    tiles.setTileAt(location, assets.tile`0`)
-                    tiles.setWallAt(location, false)
-                    loadSprites()
-                } else {
-                    mySprite.sayText("Axe Needed", 500, false)
-                }
-            }
-        }
-    })
-})
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(inMenu)) {
+    if (!(inMenu) && menuNum == 0) {
         controller.moveSprite(Collision2, 0, 0)
         inMenu = true
         myMenu = miniMenu.createMenu(
@@ -767,13 +889,51 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         arrowSprite.destroy()
         arrowSprite2.destroy()
         inMenu = false
-        controller.moveSprite(Collision2)
         menuNum = 0
+        controller.moveSprite(Collision2)
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile23`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`1`)
+        }
     }
 })
 controller.B.onEvent(ControllerButtonEvent.Released, function () {
     controller.moveSprite(Collision2)
     ToolMenu.setButtonEventsEnabled(false)
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile16`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`0`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile15`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
+            tiles.setTileAt(location, assets.tile`0`)
+        }
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`6`, function (sprite, location) {
+    timer.throttle("action", 250, function () {
+        if (!(inMenu)) {
+            if (controller.A.isPressed()) {
+                if (ToolNum[Tools.indexOf("Axe [LVL 1]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 2]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 3]")] > 0 || (ToolNum[Tools.indexOf("Axe [LVL 4]")] > 0 || ToolNum[Tools.indexOf("Axe [MAX LVL]")] > 0)))) {
+                    mySprite.sayText("+1 Cactus", 500, false)
+                    items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] + 1
+                    tiles.setTileAt(location, assets.tile`0`)
+                    tiles.setWallAt(location, false)
+                    loadSprites()
+                } else {
+                    mySprite.sayText("Axe Needed", 500, false)
+                }
+            }
+        }
+    })
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite, location) {
     if (controller.A.isPressed()) {
@@ -782,61 +942,34 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile10`, function (sprite, 
         items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(11, 20)
     }
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile27`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`4`)
+function Save_Game () {
+    savedTilemap = []
+    for (let index2 = 0; index2 <= 99; index2++) {
+        for (let index = 0; index <= 99; index++) {
+            savedTilemap.push(list.indexOf(tiles.tileImageAtLocation(tiles.getTileLocation(index, index2))))
         }
     }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`5`, function (sprite, location) {
-    timer.throttle("action", 100, function () {
-        if (!(inMenu)) {
-            if (controller.A.isPressed()) {
-                if (Math.percentChance(40)) {
-                    mySprite.sayText("+1 Seeds, +1 Sticks", 500, false)
-                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
-                    items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + 1
-                } else {
-                    mySprite.sayText("+1 Seeds", 500, false)
-                    items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] + 1
-                }
-                tiles.setTileAt(location, assets.tile`1`)
-                tiles.setWallAt(location, false)
-                loadSprites()
-            }
-        }
-    })
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile23`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`1`)
-        }
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile14`, function (sprite, location) {
+    blockSettings.writeNumberArray("Tilemap", savedTilemap)
+    blockSettings.writeNumberArray("ToolNum", ToolNum)
+    blockSettings.writeNumberArray("items", items)
+    blockSettings.writeNumber("x", Collision2.x)
+    blockSettings.writeNumber("y", Collision2.y)
+}
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile14`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
             tiles.setTileAt(location, assets.tile`0`)
         }
     }
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, location) {
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile24`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
             tiles.setTileAt(location, assets.tile`1`)
         }
     }
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile26`, function (sprite, location) {
-    if (controller.A.isPressed()) {
-        if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
-            tiles.setTileAt(location, assets.tile`4`)
-        }
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile28`, function (sprite, location) {
+scene.onOverlapTile(SpriteKind.Collision, assets.tile`myTile28`, function (sprite, location) {
     if (controller.A.isPressed()) {
         if (game.ask("Destroy? (NO REFUNDS)", "GO BACK")) {
             tiles.setTileAt(location, assets.tile`4`)
@@ -847,7 +980,6 @@ let Randomized = 0
 let textSprite: TextSprite = null
 let enemyStats = 0
 let myStats = 0
-let myMenu2: miniMenu.MenuSprite = null
 let Smoke2: Sprite = null
 let arrowSprite2: Sprite = null
 let Obj: Sprite = null
@@ -860,14 +992,17 @@ let menuNum = 0
 let inMenu = false
 let savedTilemap: number[] = []
 let RandomNum = 0
+let list: Image[] = []
 let Collision2: Sprite = null
 let mySprite: Sprite = null
+let myMenu2: miniMenu.MenuSprite = null
 let itemNames: string[] = []
 let items: number[] = []
 let ToolMenu: miniMenu.MenuSprite = null
 let ToolList: miniMenu.MenuItem[] = []
 let Tools: string[] = []
 let ToolNum: number[] = []
+game.showLongText("This game auto-saves about every 20 seconds, but you can always manually save it by pressing [A], [B], [RIGHT], and [DOWN] at once.", DialogLayout.Full)
 if (blockSettings.exists("Tilemap")) {
     if (game.ask("Continue Saved Game? [A]", "Delete Save [B]")) {
     	
@@ -900,21 +1035,18 @@ ToolNum = [
 0
 ]
 Tools = [
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-""
+"Axe [LVL 1]",
+"Axe [LVL 2]",
+"Axe [LVL 3]",
+"Axe [LVL 4]",
+"Axe [MAX LVL]",
+"Pick [LVL 1]",
+"Pick [LVL 2]",
+"Pick [LVL 3]",
+"Pick [MAX LVL]",
+"Hoe [LVL 1]",
+"Hoe [LVL 2]",
+"Hoe [MAX LVL]"
 ]
 ToolList = [
 miniMenu.createMenuItem(""),
@@ -971,6 +1103,10 @@ itemNames = [
 "Wheat"
 ]
 color.setColor(10, color.rgb(50, 200, 50))
+myMenu2 = miniMenu.createMenu(
+miniMenu.createMenuItem("abc")
+)
+myMenu2.close()
 let mySprite2 = sprites.create(img`
     1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
     1 9 3 9 9 9 9 9 9 9 9 9 9 9 9 1 
@@ -1018,7 +1154,7 @@ controller.moveSprite(Collision2, 100, 100)
 Collision2.setFlag(SpriteFlag.Invisible, true)
 scene.cameraFollowSprite(mySprite)
 tiles.setCurrentTilemap(tilemap`level1`)
-let list = [
+list = [
 assets.tile`1`,
 assets.tile`0`,
 assets.tile`2`,
@@ -1104,6 +1240,7 @@ if (blockSettings.exists("Tilemap")) {
     }
     items = blockSettings.readNumberArray("items")
     ToolNum = blockSettings.readNumberArray("ToolNum")
+    Collision2.setPosition(blockSettings.readNumber("x"), blockSettings.readNumber("y"))
 }
 ToolList[0] = miniMenu.createMenuItem("Axe [LVL 1] " + "x" + ToolNum[0])
 ToolList[1] = miniMenu.createMenuItem("Axe [LVL 2] " + "x" + ToolNum[1])
@@ -1134,9 +1271,17 @@ for (let value32 of tiles.getTilesByType(assets.tile`6`)) {
     tiles.setWallAt(value32, true)
 }
 game.onUpdate(function () {
+    if (controller.A.isPressed() && controller.B.isPressed() && (controller.right.isPressed() && controller.down.isPressed())) {
+        Save_Game()
+        game.splash("Game Saved!")
+        ToolMenu.setButtonEventsEnabled(false)
+        controller.moveSprite(mySprite)
+    }
+})
+game.onUpdate(function () {
     mySprite.bottom = Collision2.bottom + 1
     mySprite.x = Collision2.x
-    mySprite.z = Collision2.bottom
+    mySprite.z = Collision2.bottom / 100
 })
 game.onUpdate(function () {
     for (let value5 of tiles.getTilesByType(assets.tile`4`)) {
@@ -1269,14 +1414,14 @@ game.onUpdate(function () {
                         ToolList[selectedIndex] = miniMenu.createMenuItem("Hoe [MAX LVL] " + "x" + ToolNum[11])
                     }
                 } else if (selectedIndex == 12) {
-                    if (items[itemNames.indexOf("Cactus")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
+                    if (items[itemNames.indexOf("Cactus")] >= 3 && (ToolNum[0] >= 1 || (ToolNum[1] >= 1 || ToolNum[2] >= 1 || (ToolNum[3] >= 1 || ToolNum[4] >= 1)))) {
                         myMenu.setButtonEventsEnabled(false)
                         myMenu2 = miniMenu.createMenu(
-                        miniMenu.createMenuItem("" + Tools[0] + " x" + ToolNum[0]),
-                        miniMenu.createMenuItem("" + Tools[1] + " x" + ToolNum[1]),
-                        miniMenu.createMenuItem("" + Tools[2] + " x" + ToolNum[2]),
-                        miniMenu.createMenuItem("" + Tools[3] + " x" + ToolNum[3]),
-                        miniMenu.createMenuItem("" + Tools[4] + " x" + ToolNum[4])
+                        miniMenu.createMenuItem("Axe [LVL 1]" + " x" + ToolNum[0]),
+                        miniMenu.createMenuItem("Axe [LVL 2]" + " x" + ToolNum[1]),
+                        miniMenu.createMenuItem("Axe [LVL 3]" + " x" + ToolNum[2]),
+                        miniMenu.createMenuItem("Axe [LVL 4]" + " x" + ToolNum[3]),
+                        miniMenu.createMenuItem("Axe [MAX LVL]" + " x" + ToolNum[4])
                         )
                         myMenu2.z = 1000
                         myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
@@ -1287,18 +1432,18 @@ game.onUpdate(function () {
                         myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
                         myMenu2.setTitle("Select Axe Type")
                         menuNum = 7
-                        myMenu.top = 1
-                        myMenu.left = 1
+                        myMenu2.top = 1
+                        myMenu2.left = 1
                     }
                 } else if (selectedIndex == 13) {
-                    if (items[itemNames.indexOf("Sapling")] >= 3 && (items[itemNames.indexOf("Axe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 2]")] >= 1 || items[itemNames.indexOf("Axe [LVL 3]")] >= 1 || (items[itemNames.indexOf("Axe [LVL 4]")] >= 1 || items[itemNames.indexOf("Axe [MAX LVL]")] >= 1)))) {
+                    if (items[itemNames.indexOf("Saplings")] >= 3 && (ToolNum[0] >= 1 || (ToolNum[1] >= 1 || ToolNum[2] >= 1 || (ToolNum[3] >= 1 || ToolNum[4] >= 1)))) {
                         myMenu.setButtonEventsEnabled(false)
                         myMenu2 = miniMenu.createMenu(
-                        miniMenu.createMenuItem("" + Tools[0] + " x" + ToolNum[0]),
-                        miniMenu.createMenuItem("" + Tools[1] + " x" + ToolNum[1]),
-                        miniMenu.createMenuItem("" + Tools[2] + " x" + ToolNum[2]),
-                        miniMenu.createMenuItem("" + Tools[3] + " x" + ToolNum[3]),
-                        miniMenu.createMenuItem("" + Tools[4] + " x" + ToolNum[4])
+                        miniMenu.createMenuItem("Axe [LVL 1]" + " x" + ToolNum[0]),
+                        miniMenu.createMenuItem("Axe [LVL 2]" + " x" + ToolNum[1]),
+                        miniMenu.createMenuItem("Axe [LVL 3]" + " x" + ToolNum[2]),
+                        miniMenu.createMenuItem("Axe [LVL 4]" + " x" + ToolNum[3]),
+                        miniMenu.createMenuItem("Axe [MAX LVL]" + " x" + ToolNum[4])
                         )
                         myMenu2.z = 1000
                         myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
@@ -1309,16 +1454,16 @@ game.onUpdate(function () {
                         myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
                         myMenu2.setTitle("Select Axe Type")
                         menuNum = 4
-                        myMenu.top = 1
-                        myMenu.left = 1
+                        myMenu2.top = 1
+                        myMenu2.left = 1
                     }
                 } else if (selectedIndex == 14) {
-                    if (items[itemNames.indexOf("Seeds")] >= 10 && (items[itemNames.indexOf("Hoe [LVL 1]")] >= 1 || (items[itemNames.indexOf("Hoe [LVL 2]")] >= 1 || items[itemNames.indexOf("Hoe [MAX LVL]")] >= 1))) {
+                    if (items[itemNames.indexOf("Seeds")] >= 10 && (ToolNum[9] >= 1 || (ToolNum[10] >= 1 || ToolNum[11] >= 1))) {
                         myMenu.setButtonEventsEnabled(false)
                         myMenu2 = miniMenu.createMenu(
-                        miniMenu.createMenuItem("" + Tools[9] + " x" + ToolNum[9]),
-                        miniMenu.createMenuItem("" + Tools[10] + " x" + ToolNum[10]),
-                        miniMenu.createMenuItem("" + Tools[11] + " x" + ToolNum[11])
+                        miniMenu.createMenuItem("Hoe [LVL 1]" + " x" + ToolNum[9]),
+                        miniMenu.createMenuItem("Hoe [LVL 2]" + " x" + ToolNum[10]),
+                        miniMenu.createMenuItem("Hoe [MAX LVL]" + " x" + ToolNum[11])
                         )
                         myMenu2.z = 1000
                         myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
@@ -1329,17 +1474,17 @@ game.onUpdate(function () {
                         myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
                         myMenu2.setTitle("Select Hoe Type")
                         menuNum = 5
-                        myMenu.top = 1
-                        myMenu.left = 1
+                        myMenu2.top = 1
+                        myMenu2.left = 1
                     }
                 } else if (selectedIndex == 15) {
-                    if (items[itemNames.indexOf("Wood")] >= 3 && (items[itemNames.indexOf("Pick [LVL 1]")] >= 1 || (items[itemNames.indexOf("Pick [LVL 2]")] >= 1 || (items[itemNames.indexOf("Pick [LVL 3]")] >= 1 || items[itemNames.indexOf("Pick [MAX LVL]")] >= 1)))) {
+                    if (items[itemNames.indexOf("Wood")] >= 3 && (ToolNum[5] >= 1 || (ToolNum[6] >= 1 || (ToolNum[7] >= 1 || ToolNum[8] >= 1)))) {
                         myMenu.setButtonEventsEnabled(false)
                         myMenu2 = miniMenu.createMenu(
-                        miniMenu.createMenuItem("" + Tools[5] + " x" + ToolNum[5]),
-                        miniMenu.createMenuItem("" + Tools[6] + " x" + ToolNum[6]),
-                        miniMenu.createMenuItem("" + Tools[7] + " x" + ToolNum[7]),
-                        miniMenu.createMenuItem("" + Tools[3] + " x" + ToolNum[8])
+                        miniMenu.createMenuItem("Pick [LVL 1]" + " x" + ToolNum[5]),
+                        miniMenu.createMenuItem("Pick [LVL 2]" + " x" + ToolNum[6]),
+                        miniMenu.createMenuItem("Pick [LVL 3]" + " x" + ToolNum[7]),
+                        miniMenu.createMenuItem("Pick [MAX LVL]" + " x" + ToolNum[8])
                         )
                         myMenu2.z = 1000
                         myMenu2.setFlag(SpriteFlag.RelativeToCamera, true)
@@ -1350,8 +1495,8 @@ game.onUpdate(function () {
                         myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
                         myMenu2.setTitle("Select Pick Type")
                         menuNum = 6
-                        myMenu.top = 1
-                        myMenu.left = 1
+                        myMenu2.top = 1
+                        myMenu2.left = 1
                     }
                 } else if (selectedIndex == 16) {
                     if (items[itemNames.indexOf("Wood")] >= 10 && items[itemNames.indexOf("Iron")] >= 4) {
@@ -1374,8 +1519,8 @@ game.onUpdate(function () {
                         myMenu2.setMenuStyleProperty(miniMenu.MenuStyleProperty.ScrollIndicatorColor, 1)
                         myMenu2.setTitle("Select Material")
                         menuNum = 8
-                        myMenu.top = 1
-                        myMenu.left = 1
+                        myMenu2.top = 1
+                        myMenu2.left = 1
                     }
                 } else {
                 	
@@ -1383,104 +1528,14 @@ game.onUpdate(function () {
                 myMenu.close()
                 arrowSprite.destroy()
                 arrowSprite2.destroy()
-                menuNum = 0
-            } else if (menuNum == 4) {
-                items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] - 3
-                items[itemNames.indexOf("Tree Farm")] = items[itemNames.indexOf("Tree Farm")] + 1
-                if (selection == "Axe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[0] = ToolNum[0] - 1
-                    tileMem = assets.tile`myTile18`
-                } else if (selection == "Axe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[1] = ToolNum[1] - 1
-                    tileMem = assets.tile`myTile19`
-                } else if (selection == "Axe [LVL 3]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[2] = ToolNum[2] - 1
-                    tileMem = assets.tile`myTile20`
-                } else if (selection == "Axe [LVL 4]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[3] = ToolNum[3] - 1
-                    tileMem = assets.tile`myTile21`
-                } else if (selection == "Axe [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[4] = ToolNum[4] - 1
-                    tileMem = assets.tile`myTile22`
+                if (menuNum == 2) {
+                    myMenu2.close()
+                    controller.moveSprite(Collision2)
+                    menuNum = 0
                 }
-                menuNum = 3
-            } else if (menuNum == 5) {
-                items[itemNames.indexOf("Seeds")] = items[itemNames.indexOf("Seeds")] - 10
-                items[itemNames.indexOf("Wheat Farm")] = items[itemNames.indexOf("Wheat Farm")] + 1
-                if (selection == "Hoe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[0] = ToolNum[0] - 1
-                    tileMem = assets.tile`myTile7`
-                } else if (selection == "Hoe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[1] = ToolNum[1] - 1
-                    tileMem = assets.tile`myTile9`
-                } else if (selection == "Hoe [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[2] = ToolNum[2] - 1
-                    tileMem = assets.tile`myTile11`
-                }
-                menuNum = 3
-            } else if (menuNum == 6) {
-                items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 3
-                items[itemNames.indexOf("Mine")] = items[itemNames.indexOf("Mine")] + 1
-                if (selection == "Pick [LVL 1]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[5] = ToolNum[5] - 1
-                    tileMem = assets.tile`myTile26`
-                } else if (selection == "Pick [LVL 2]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[6] = ToolNum[6] - 1
-                    tileMem = assets.tile`myTile27`
-                } else if (selection == "Pick [LVL 3]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[7] = ToolNum[7] - 1
-                    tileMem = assets.tile`myTile28`
-                } else if (selection == "Pick [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[8] = ToolNum[8] - 1
-                    tileMem = assets.tile`myTile29`
-                }
-                menuNum = 3
-            } else if (menuNum == 7) {
-                items[itemNames.indexOf("Cactus")] = items[itemNames.indexOf("Cactus")] - 3
-                items[itemNames.indexOf("Cactus Farm")] = items[itemNames.indexOf("Cactus Farm")] - 10
-                if (selection == "Axe [LVL 1]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[0] = ToolNum[0] - 1
-                    tileMem = assets.tile`myTile13`
-                } else if (selection == "Axe [LVL 2]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[1] = ToolNum[1] - 1
-                    tileMem = assets.tile`myTile14`
-                } else if (selection == "Axe [LVL 3]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[2] = ToolNum[2] - 1
-                    tileMem = assets.tile`myTile15`
-                } else if (selection == "Axe [LVL 4]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[3] = ToolNum[3] - 1
-                    tileMem = assets.tile`myTile16`
-                } else if (selection == "Axe [MAX LVL]" && ToolNum[selectedIndex] >= 1) {
-                    ToolNum[4] = ToolNum[4] - 1
-                    tileMem = assets.tile`myTile17`
-                }
-                menuNum = 3
-            } else if (menuNum == 8) {
-                items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] - 10
-                items[itemNames.indexOf("Iron")] = items[itemNames.indexOf("Iron")] - 4
-                items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] - 2
-                if (selection == "Iron" && items[selectedIndex] >= 4) {
-                    items[5] = items[5] - 4
-                } else if (selection == "Diamond" && items[selectedIndex] >= 4) {
-                    items[6] = items[6] - 4
-                }
-                menuNum = 3
-            } else {
-            	
             }
             Reload_Tool_Menu()
         })
-    }
-    if (menuNum == 3) {
-        myMenu.close()
-        mySprite3 = sprites.create(img`
-            . . 1 . . 
-            . . 1 . . 
-            1 1 . 1 1 
-            . . 1 . . 
-            . . 1 . . 
-            `, SpriteKind.Player)
-        controller.moveSprite(mySprite3)
     }
 })
 game.onUpdate(function () {
@@ -1542,7 +1597,7 @@ game.onUpdate(function () {
     )
 })
 game.onUpdateInterval(5000, function () {
-    if (Math.percentChance(1) && tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length * 2 > 0) {
+    if (Math.percentChance(2) && tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length * 2 > 0) {
         myStats = tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length * 2
         enemyStats = (tiles.getTilesByType(assets.tile`myTile24`).length + tiles.getTilesByType(assets.tile`myTile25`).length * 1.8) * randint(0.5, 1.5)
         for (let index = 0; index < 100; index++) {
@@ -1644,22 +1699,27 @@ game.onUpdateInterval(18750, function () {
     for (let value of tiles.getTilesByType(assets.tile`myTile18`)) {
         items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + randint(0, 1)
         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + randint(0, 1)
+        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + randint(0, 5)
     }
     for (let value of tiles.getTilesByType(assets.tile`myTile19`)) {
         items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + randint(1, 2)
         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + randint(1, 3)
+        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + randint(5, 10)
     }
     for (let value of tiles.getTilesByType(assets.tile`myTile20`)) {
         items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + randint(2, 3)
         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + randint(4, 7)
+        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + randint(10, 15)
     }
     for (let value of tiles.getTilesByType(assets.tile`myTile21`)) {
         items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + randint(3, 5)
         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + randint(7, 15)
+        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + randint(15, 30)
     }
     for (let value of tiles.getTilesByType(assets.tile`myTile22`)) {
         items[itemNames.indexOf("Saplings")] = items[itemNames.indexOf("Saplings")] + randint(5, 10)
         items[itemNames.indexOf("Wood")] = items[itemNames.indexOf("Wood")] + randint(16, 30)
+        items[itemNames.indexOf("Sticks")] = items[itemNames.indexOf("Sticks")] + randint(30, 60)
     }
     for (let value of tiles.getTilesByType(assets.tile`myTile23`)) {
         if (tiles.tileAtLocationEquals(value.getNeighboringLocation(CollisionDirection.Left), assets.tile`myTile8`)) {
@@ -1712,13 +1772,5 @@ game.onUpdateInterval(18750, function () {
             items[itemNames.indexOf("Wheat")] = items[itemNames.indexOf("Wheat")] + randint(21, 30)
         }
     }
-    savedTilemap = []
-    for (let index2 = 0; index2 <= 99; index2++) {
-        for (let index = 0; index <= 99; index++) {
-            savedTilemap.push(list.indexOf(tiles.tileImageAtLocation(tiles.getTileLocation(index, index2))))
-        }
-    }
-    blockSettings.writeNumberArray("Tilemap", savedTilemap)
-    blockSettings.writeNumberArray("ToolNum", ToolNum)
-    blockSettings.writeNumberArray("items", items)
+    Save_Game()
 })
